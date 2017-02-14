@@ -48,7 +48,7 @@
 		5058D4161E2C830100CCD5B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5058D4181E2C830100CCD5B8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = VirtualTourist/ViewController.swift; sourceTree = "<group>"; };
 		5058D41B1E2C830100CCD5B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5058D41D1E2C830100CCD5B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5058D41D1E2C830100CCD5B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = VirtualTourist/Assets.xcassets; sourceTree = "<group>"; };
 		5058D4201E2C830100CCD5B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5058D4221E2C830100CCD5B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5058D4271E2C830200CCD5B8 /* VirtualTouristTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VirtualTouristTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +102,7 @@
 				5060016D1E52C4FF007855DB /* Controllers */,
 				506001701E52C5B5007855DB /* Networks */,
 				5060017C1E52C82B007855DB /* Components */,
+				506001861E52C97E007855DB /* Assets */,
 				506001831E52C8AD007855DB /* Frameworks */,
 				5058D42A1E2C830200CCD5B8 /* VirtualTouristTests */,
 				5058D4351E2C830200CCD5B8 /* VirtualTouristUITests */,
@@ -123,9 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				5058D4161E2C830100CCD5B8 /* AppDelegate.swift */,
-				5058D41A1E2C830100CCD5B8 /* Main.storyboard */,
-				5058D41D1E2C830100CCD5B8 /* Assets.xcassets */,
-				5058D41F1E2C830100CCD5B8 /* LaunchScreen.storyboard */,
 				5058D4221E2C830100CCD5B8 /* Info.plist */,
 			);
 			path = VirtualTourist;
@@ -186,6 +184,16 @@
 				506001841E52C8E9007855DB /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		506001861E52C97E007855DB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5058D41A1E2C830100CCD5B8 /* Main.storyboard */,
+				5058D41F1E2C830100CCD5B8 /* LaunchScreen.storyboard */,
+				5058D41D1E2C830100CCD5B8 /* Assets.xcassets */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -377,6 +385,7 @@
 				5058D41B1E2C830100CCD5B8 /* Base */,
 			);
 			name = Main.storyboard;
+			path = VirtualTourist;
 			sourceTree = "<group>";
 		};
 		5058D41F1E2C830100CCD5B8 /* LaunchScreen.storyboard */ = {
@@ -385,6 +394,7 @@
 				5058D4201E2C830100CCD5B8 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = VirtualTourist;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

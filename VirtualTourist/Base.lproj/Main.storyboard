@@ -74,6 +74,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cAB-ZU-hpb"/>
+                    <connections>
+                        <outlet property="mapView" destination="ROk-pB-814" id="22h-sC-tv5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9o-Ev-JdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

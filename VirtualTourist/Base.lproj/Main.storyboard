@@ -33,7 +33,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="925.60000000000002" y="-559.07046476761627"/>
+            <point key="canvasLocation" x="906" y="-559"/>
         </scene>
         <!--Photos View Controller-->
         <scene sceneID="HUW-Q2-Of3">
@@ -47,9 +47,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bGx-Xc-rrd">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="166"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bGx-Xc-rrd">
+                                <rect key="frame" x="0.0" y="64" width="375" height="102"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="102" id="BEr-ye-Pxl"/>
+                                    <constraint firstAttribute="width" constant="375" id="ljY-Sl-svy"/>
+                                </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fwd-fR-1hJ">
                                 <rect key="frame" x="0.0" y="166" width="375" height="457"/>
@@ -69,17 +72,32 @@
                                             <rect key="frame" x="0.0" y="0.0" width="80" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfu-Qr-uId">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hfu-Qr-uId">
                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="84"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="IUb-OQ-gOr"/>
+                                                        <constraint firstAttribute="height" constant="84" id="yeM-31-rFW"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="hfu-Qr-uId" firstAttribute="centerX" secondItem="2Rg-2F-zU8" secondAttribute="centerX" id="Ee0-5v-Mch"/>
+                                            <constraint firstAttribute="trailing" secondItem="hfu-Qr-uId" secondAttribute="trailing" id="XIP-YW-UKL"/>
+                                            <constraint firstItem="hfu-Qr-uId" firstAttribute="top" secondItem="2Rg-2F-zU8" secondAttribute="top" id="aTW-o5-VOw"/>
+                                            <constraint firstItem="hfu-Qr-uId" firstAttribute="leading" secondItem="2Rg-2F-zU8" secondAttribute="leading" id="xnk-nv-PQw"/>
+                                        </constraints>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bGx-Xc-rrd" firstAttribute="centerX" secondItem="qdf-C2-wTa" secondAttribute="centerX" id="B3g-Gc-pDk"/>
+                            <constraint firstAttribute="trailing" secondItem="bGx-Xc-rrd" secondAttribute="trailing" id="KiW-oq-RoI"/>
+                            <constraint firstItem="bGx-Xc-rrd" firstAttribute="top" secondItem="E2Z-hC-yau" secondAttribute="bottom" id="S9T-dV-SjS"/>
+                            <constraint firstItem="bGx-Xc-rrd" firstAttribute="leading" secondItem="qdf-C2-wTa" secondAttribute="leading" id="k0h-8u-bte"/>
+                        </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="ban-ND-aFR"/>

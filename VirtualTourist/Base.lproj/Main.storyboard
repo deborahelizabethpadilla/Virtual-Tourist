@@ -27,6 +27,9 @@
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="9YH-Y6-Kfq"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="OIQ-om-qll" kind="show" id="Dw5-w8-8CJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

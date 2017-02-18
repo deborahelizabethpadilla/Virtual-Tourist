@@ -1,5 +1,5 @@
 //
-//  Pin.swift
+//  Pins.swift
 //  VirtualTourist
 //
 //  Created by Deborah on 2/14/17.
@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import CoreData
+
+class Pin: NSManagedObject {
+    
+    
+}

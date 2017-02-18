@@ -16,11 +16,8 @@
 		5058D4371E2C830200CCD5B8 /* VirtualTouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5058D4361E2C830200CCD5B8 /* VirtualTouristUITests.swift */; };
 		506001721E52C5DD007855DB /* FlickrNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001711E52C5DD007855DB /* FlickrNetwork.swift */; };
 		506001741E52C621007855DB /* FlickrAssist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001731E52C621007855DB /* FlickrAssist.swift */; };
-		506001791E52C73F007855DB /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001781E52C73F007855DB /* CoreDataStackManager.swift */; };
 		5060017B1E52C79C007855DB /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060017A1E52C79C007855DB /* PhotosViewController.swift */; };
-		5060017E1E52C84F007855DB /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060017D1E52C84F007855DB /* Map.swift */; };
-		506001801E52C859007855DB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060017F1E52C859007855DB /* Photo.swift */; };
-		506001821E52C861007855DB /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001811E52C861007855DB /* Pin.swift */; };
+		506001821E52C861007855DB /* Pins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001811E52C861007855DB /* Pins.swift */; };
 		506001851E52C8E9007855DB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506001841E52C8E9007855DB /* MapKit.framework */; };
 		508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */; };
 		508E0AA01E58E8260006F1D7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508E0A9F1E58E8260006F1D7 /* CoreData.framework */; };
@@ -59,11 +56,8 @@
 		5058D4381E2C830200CCD5B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506001711E52C5DD007855DB /* FlickrNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrNetwork.swift; sourceTree = "<group>"; };
 		506001731E52C621007855DB /* FlickrAssist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrAssist.swift; sourceTree = "<group>"; };
-		506001781E52C73F007855DB /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		5060017A1E52C79C007855DB /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
-		5060017D1E52C84F007855DB /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
-		5060017F1E52C859007855DB /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		506001811E52C861007855DB /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		506001811E52C861007855DB /* Pins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pins.swift; sourceTree = "<group>"; };
 		506001841E52C8E9007855DB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		508E0A9F1E58E8260006F1D7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -102,7 +96,6 @@
 				5058D4151E2C830100CCD5B8 /* VirtualTourist */,
 				5060016D1E52C4FF007855DB /* Controllers */,
 				506001701E52C5B5007855DB /* Networks */,
-				5060017C1E52C82B007855DB /* Components */,
 				506001861E52C97E007855DB /* Assets */,
 				506001831E52C8AD007855DB /* Frameworks */,
 				5058D42A1E2C830200CCD5B8 /* VirtualTouristTests */,
@@ -154,6 +147,7 @@
 				5058D4181E2C830100CCD5B8 /* MapViewController.swift */,
 				5060017A1E52C79C007855DB /* PhotosViewController.swift */,
 				508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */,
+				506001811E52C861007855DB /* Pins.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -165,17 +159,6 @@
 				506001731E52C621007855DB /* FlickrAssist.swift */,
 			);
 			name = Networks;
-			sourceTree = "<group>";
-		};
-		5060017C1E52C82B007855DB /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				506001781E52C73F007855DB /* CoreDataStackManager.swift */,
-				5060017D1E52C84F007855DB /* Map.swift */,
-				5060017F1E52C859007855DB /* Photo.swift */,
-				506001811E52C861007855DB /* Pin.swift */,
-			);
-			name = Components;
 			sourceTree = "<group>";
 		};
 		506001831E52C8AD007855DB /* Frameworks */ = {
@@ -334,14 +317,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				506001821E52C861007855DB /* Pin.swift in Sources */,
+				506001821E52C861007855DB /* Pins.swift in Sources */,
 				5060017B1E52C79C007855DB /* PhotosViewController.swift in Sources */,
 				506001741E52C621007855DB /* FlickrAssist.swift in Sources */,
 				5058D4191E2C830100CCD5B8 /* MapViewController.swift in Sources */,
-				506001801E52C859007855DB /* Photo.swift in Sources */,
-				506001791E52C73F007855DB /* CoreDataStackManager.swift in Sources */,
 				5058D4171E2C830100CCD5B8 /* AppDelegate.swift in Sources */,
-				5060017E1E52C84F007855DB /* Map.swift in Sources */,
 				506001721E52C5DD007855DB /* FlickrNetwork.swift in Sources */,
 				508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */,
 			);

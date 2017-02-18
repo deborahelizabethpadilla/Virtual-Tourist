@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  FlickrNetwork.swift
 //  VirtualTourist
 //
 //  Created by Deborah on 2/13/17.

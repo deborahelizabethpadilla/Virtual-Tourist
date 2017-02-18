@@ -1,5 +1,5 @@
 //
-//  Convienent.swift
+//  FlickrAssist.swift
 //  VirtualTourist
 //
 //  Created by Deborah on 2/13/17.

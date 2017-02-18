@@ -21,6 +21,9 @@
 		506001851E52C8E9007855DB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506001841E52C8E9007855DB /* MapKit.framework */; };
 		508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */; };
 		508E0AA01E58E8260006F1D7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508E0A9F1E58E8260006F1D7 /* CoreData.framework */; };
+		508E0AA21E58ECE30006F1D7 /* CoreDataPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0AA11E58ECE30006F1D7 /* CoreDataPhotos.swift */; };
+		508E0AA41E58ED000006F1D7 /* CoreDataPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0AA31E58ED000006F1D7 /* CoreDataPins.swift */; };
+		508E0AA61E58ED0F0006F1D7 /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0AA51E58ED0F0006F1D7 /* CoreData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		506001841E52C8E9007855DB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		508E0A9F1E58E8260006F1D7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		508E0AA11E58ECE30006F1D7 /* CoreDataPhotos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataPhotos.swift; sourceTree = "<group>"; };
+		508E0AA31E58ED000006F1D7 /* CoreDataPins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataPins.swift; sourceTree = "<group>"; };
+		508E0AA51E58ED0F0006F1D7 /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +154,9 @@
 				5060017A1E52C79C007855DB /* PhotosViewController.swift */,
 				508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */,
 				506001811E52C861007855DB /* Pins.swift */,
+				508E0AA11E58ECE30006F1D7 /* CoreDataPhotos.swift */,
+				508E0AA31E58ED000006F1D7 /* CoreDataPins.swift */,
+				508E0AA51E58ED0F0006F1D7 /* CoreData.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -320,10 +329,13 @@
 				506001821E52C861007855DB /* Pins.swift in Sources */,
 				5060017B1E52C79C007855DB /* PhotosViewController.swift in Sources */,
 				506001741E52C621007855DB /* FlickrAssist.swift in Sources */,
+				508E0AA41E58ED000006F1D7 /* CoreDataPins.swift in Sources */,
+				508E0AA61E58ED0F0006F1D7 /* CoreData.swift in Sources */,
 				5058D4191E2C830100CCD5B8 /* MapViewController.swift in Sources */,
 				5058D4171E2C830100CCD5B8 /* AppDelegate.swift in Sources */,
 				506001721E52C5DD007855DB /* FlickrNetwork.swift in Sources */,
 				508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */,
+				508E0AA21E58ECE30006F1D7 /* CoreDataPhotos.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

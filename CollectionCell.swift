@@ -10,5 +10,6 @@ import UIKit
 
 class CollectionCell: UICollectionViewCell {
     
+    @IBOutlet var imageView: UIImageView!
     
 }

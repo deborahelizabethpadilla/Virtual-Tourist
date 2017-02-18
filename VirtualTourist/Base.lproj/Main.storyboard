@@ -138,18 +138,21 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zZN-P5-Imu">
                                                     <rect key="frame" x="0.0" y="0.0" width="81" height="76"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="81" id="236-Hj-WdD"/>
-                                                        <constraint firstAttribute="height" constant="76" id="qcX-KC-v4N"/>
+                                                        <constraint firstAttribute="width" constant="81" id="kyA-AE-sXA"/>
+                                                        <constraint firstAttribute="height" constant="76" id="rqu-Mm-3Nl"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="zZN-P5-Imu" secondAttribute="trailing" id="4Ue-zG-9N0"/>
-                                            <constraint firstItem="zZN-P5-Imu" firstAttribute="leading" secondItem="66o-MD-99F" secondAttribute="leading" id="5Rj-QD-d16"/>
-                                            <constraint firstItem="zZN-P5-Imu" firstAttribute="centerX" secondItem="66o-MD-99F" secondAttribute="centerX" id="Kow-rI-T3x"/>
-                                            <constraint firstItem="zZN-P5-Imu" firstAttribute="top" secondItem="66o-MD-99F" secondAttribute="top" id="dbH-3t-Cfy"/>
+                                            <constraint firstAttribute="trailing" secondItem="zZN-P5-Imu" secondAttribute="trailing" id="Go6-Tl-JTg"/>
+                                            <constraint firstItem="zZN-P5-Imu" firstAttribute="centerX" secondItem="66o-MD-99F" secondAttribute="centerX" id="HRC-w7-XVY"/>
+                                            <constraint firstItem="zZN-P5-Imu" firstAttribute="leading" secondItem="66o-MD-99F" secondAttribute="leading" id="nNv-Gm-FrO"/>
+                                            <constraint firstItem="zZN-P5-Imu" firstAttribute="top" secondItem="66o-MD-99F" secondAttribute="top" id="roW-e4-puc"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="zZN-P5-Imu" id="DM5-gR-leb"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -180,9 +183,6 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="hTO-Yj-ggm"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="imageView" destination="zZN-P5-Imu" id="39X-o4-TZu"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

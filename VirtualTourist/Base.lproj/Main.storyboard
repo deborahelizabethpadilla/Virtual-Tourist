@@ -186,6 +186,11 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="hTO-Yj-ggm"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionViewOutlet" destination="h3y-CC-cIK" id="c8a-4v-gel"/>
+                        <outlet property="mapView" destination="kCd-DH-cD0" id="t3z-jh-61N"/>
+                        <outlet property="newCollectionButton" destination="DzD-Ly-Jpz" id="zYD-Ac-Rxh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

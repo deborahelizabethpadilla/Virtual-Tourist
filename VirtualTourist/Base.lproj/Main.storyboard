@@ -134,7 +134,22 @@
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uc2-VO-SHY">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="J0A-NE-gnL"/>
+                                                        <constraint firstAttribute="width" constant="50" id="a8e-U7-WNE"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="uc2-VO-SHY" secondAttribute="trailing" id="5Mg-hc-Tcz"/>
+                                            <constraint firstItem="uc2-VO-SHY" firstAttribute="leading" secondItem="66o-MD-99F" secondAttribute="leading" id="Sw6-a4-Y2G"/>
+                                            <constraint firstItem="uc2-VO-SHY" firstAttribute="centerX" secondItem="66o-MD-99F" secondAttribute="centerX" id="Zxl-kW-xEq"/>
+                                            <constraint firstItem="uc2-VO-SHY" firstAttribute="top" secondItem="66o-MD-99F" secondAttribute="top" id="y9f-1j-sBF"/>
+                                        </constraints>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>

@@ -23,6 +23,7 @@
 		506001821E52C861007855DB /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001811E52C861007855DB /* Pin.swift */; };
 		506001851E52C8E9007855DB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506001841E52C8E9007855DB /* MapKit.framework */; };
 		508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */; };
+		508E0AA01E58E8260006F1D7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508E0A9F1E58E8260006F1D7 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		506001811E52C861007855DB /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		506001841E52C8E9007855DB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
+		508E0A9F1E58E8260006F1D7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508E0AA01E58E8260006F1D7 /* CoreData.framework in Frameworks */,
 				506001851E52C8E9007855DB /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,6 +181,7 @@
 		506001831E52C8AD007855DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				508E0A9F1E58E8260006F1D7 /* CoreData.framework */,
 				506001841E52C8E9007855DB /* MapKit.framework */,
 			);
 			name = Frameworks;

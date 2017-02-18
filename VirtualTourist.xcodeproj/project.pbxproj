@@ -50,7 +50,7 @@
 		5058D41B1E2C830100CCD5B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5058D41D1E2C830100CCD5B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = VirtualTourist/Assets.xcassets; sourceTree = "<group>"; };
 		5058D4201E2C830100CCD5B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5058D4221E2C830100CCD5B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5058D4221E2C830100CCD5B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = VirtualTourist/Info.plist; sourceTree = "<group>"; };
 		5058D4271E2C830200CCD5B8 /* VirtualTouristTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VirtualTouristTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5058D42B1E2C830200CCD5B8 /* VirtualTouristTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTouristTests.swift; sourceTree = "<group>"; };
 		5058D42D1E2C830200CCD5B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				5058D4161E2C830100CCD5B8 /* AppDelegate.swift */,
-				5058D4221E2C830100CCD5B8 /* Info.plist */,
 			);
 			path = VirtualTourist;
 			sourceTree = "<group>";
@@ -185,6 +184,7 @@
 				5058D41A1E2C830100CCD5B8 /* Main.storyboard */,
 				5058D41F1E2C830100CCD5B8 /* LaunchScreen.storyboard */,
 				5058D41D1E2C830100CCD5B8 /* Assets.xcassets */,
+				5058D4221E2C830100CCD5B8 /* Info.plist */,
 			);
 			name = Assets;
 			sourceTree = "<group>";

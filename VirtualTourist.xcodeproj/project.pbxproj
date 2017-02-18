@@ -22,6 +22,7 @@
 		506001801E52C859007855DB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060017F1E52C859007855DB /* Photo.swift */; };
 		506001821E52C861007855DB /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506001811E52C861007855DB /* Pin.swift */; };
 		506001851E52C8E9007855DB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506001841E52C8E9007855DB /* MapKit.framework */; };
+		508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		5060017F1E52C859007855DB /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		506001811E52C861007855DB /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		506001841E52C8E9007855DB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 			children = (
 				5058D4181E2C830100CCD5B8 /* MapViewController.swift */,
 				5060017A1E52C79C007855DB /* PhotosViewController.swift */,
+				508E0A9D1E58E5960006F1D7 /* CollectionCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				5058D4171E2C830100CCD5B8 /* AppDelegate.swift in Sources */,
 				5060017E1E52C84F007855DB /* Map.swift in Sources */,
 				506001721E52C5DD007855DB /* FlickrNetwork.swift in Sources */,
+				508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

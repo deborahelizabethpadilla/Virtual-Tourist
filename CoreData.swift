@@ -68,11 +68,11 @@ struct CoreData {
         let fm = FileManager.default
         
         guard let  docUrl = fm.urls(for: .documentDirectory, in: .userDomainMask).first else{
-            print("Unable to reach the documents folder")
+            print("Unable To Reach The Documents Folder")
             return nil
         }
         
-        self.dbURL = docUrl.appendingPathComponent("model.sqlite")
+        self.dbURL = docUrl.appendingPathComponent("project.sqlite")
         
         do{
             try addStoreTo(coordinator: coordinator,

@@ -13,6 +13,6 @@ extension Photos {
     
     @NSManaged var path: String?
     @NSManaged var imageUrl: String?
-    @NSManaged var pin: Pin?
+    @NSManaged var pins: Pins?
     
 }

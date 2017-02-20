@@ -10,6 +10,16 @@ import Foundation
 import CoreData
 
 class Pins: NSManagedObject {
-    
-    
-}
+        
+        convenience init(dictionary: [String:AnyObject], context: NSManagedObjectContext) {
+            if let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context) {
+                self.init(entity: entity, insertInto: context)
+                self.latitude = dictionary["latitude"] as! Double as NSNumber
+                self.longitude = dictionary["longitude"] as! Double as NSNumber
+                self.alreadyHasPhotos = false
+            } else {
+                fatalError("Unable to find Entity naem!")
+            }
+        }
+        
+    }

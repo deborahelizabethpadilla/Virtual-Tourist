@@ -7,3 +7,12 @@
 //
 
 import Foundation
+import CoreData
+
+extension Photo {
+    
+    @NSManaged var path: String?
+    @NSManaged var imageUrl: String?
+    @NSManaged var pin: Pin?
+    
+}

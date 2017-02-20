@@ -7,3 +7,13 @@
 //
 
 import Foundation
+import CoreData
+
+extension Pin {
+    
+    @NSManaged: NSNumber?
+    @NSManaged var longitude: NSNumber?
+    @NSManaged var alreadyHasPhotos: NSNumber?
+    @NSManaged var photos: NSSet?
+    
+}

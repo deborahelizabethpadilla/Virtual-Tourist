@@ -11,7 +11,7 @@ import MapKit
 import CoreData
 
 class MapViewController: UIViewController {
-
+    
     @IBOutlet var mapView: MKMapView!
     
     var locations = [Pins]()
@@ -33,15 +33,15 @@ class MapViewController: UIViewController {
         let longPressRecogniser = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.handleLongPress(_:)))
         longPressRecogniser.minimumPressDuration = 1.0
         mapView.addGestureRecognizer(longPressRecogniser)
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
     func handleLongPress(_ getstureRecognizer : UIGestureRecognizer){
         if getstureRecognizer.state != .began {
             return

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		50586FC71E5B6804000E8DC8 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50586FC61E5B6803000E8DC8 /* Photos.swift */; };
+		50586FC91E5B698D000E8DC8 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50586FC81E5B698D000E8DC8 /* BlackBox.swift */; };
 		5058D4171E2C830100CCD5B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5058D4161E2C830100CCD5B8 /* AppDelegate.swift */; };
 		5058D4191E2C830100CCD5B8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5058D4181E2C830100CCD5B8 /* MapViewController.swift */; };
 		5058D41C1E2C830100CCD5B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5058D41A1E2C830100CCD5B8 /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		50586FC61E5B6803000E8DC8 /* Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
+		50586FC81E5B698D000E8DC8 /* BlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackBox.swift; sourceTree = "<group>"; };
 		5058D4131E2C830100CCD5B8 /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5058D4161E2C830100CCD5B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5058D4181E2C830100CCD5B8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = VirtualTourist/MapViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				508E0AA31E58ED000006F1D7 /* CoreDataPins.swift */,
 				508E0AA51E58ED0F0006F1D7 /* CoreData.swift */,
 				50586FC61E5B6803000E8DC8 /* Photos.swift */,
+				50586FC81E5B698D000E8DC8 /* BlackBox.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				508E0A9E1E58E5960006F1D7 /* CollectionCell.swift in Sources */,
 				50586FC71E5B6804000E8DC8 /* Photos.swift in Sources */,
 				508E0AA21E58ECE30006F1D7 /* CoreDataPhotos.swift in Sources */,
+				50586FC91E5B698D000E8DC8 /* BlackBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

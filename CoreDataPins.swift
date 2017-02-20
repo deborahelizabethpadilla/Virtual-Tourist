@@ -11,7 +11,7 @@ import CoreData
 
 extension Pins {
     
-    @NSManaged: NSNumber?
+    @NSManaged var number: NSNumber?
     @NSManaged var longitude: NSNumber?
     @NSManaged var alreadyHasPhotos: NSNumber?
     @NSManaged var photos: NSSet?

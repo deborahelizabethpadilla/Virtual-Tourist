@@ -17,11 +17,11 @@ enum CoreDataNotifications : String{
     case TaskFinished = "TaskFinished"
 }
 
-    //CoreData Info
+//CoreData Info
 
 struct CoreData {
     
-    static let sharedInstance = CoreData(modelName: "Model")
+    static let sharedInstance = CoreData(modelName: "project")
     
     
     fileprivate let model : NSManagedObjectModel
@@ -36,18 +36,18 @@ struct CoreData {
     init?(modelName: String){
         
         
-        guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
-            print("Unable to find \(modelName)in the main bundle")
+        guard let projectURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
+            print("Unable To Find \(modelName)In The Main Bundle")
             return nil}
         
-        self.modelURL = modelURL
+        self.projectURL = projectURL
         
-       
-        guard let model = NSManagedObjectModel(contentsOf: modelURL) else{
-            print("unable to create a model from \(modelURL)")
+        
+        guard let project = NSManagedObjectModel(contentsOf: projectURL) else{
+            print("Unable To Create A Model From \(modelURL)")
             return nil
         }
-        self.model = model
+        self.project = project
         
         
         coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
@@ -60,7 +60,7 @@ struct CoreData {
         context.parent = persistingContext
         context.name = "Main"
         
-       
+        
         backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         backgroundContext.parent = context
         backgroundContext.name = "Background"
@@ -96,12 +96,12 @@ struct CoreData {
 }
 
 
-    //Delete Data
+//Delete Data
 
 extension CoreData {
     
     func dropAllData() throws{
-
+        
         try coordinator.destroyPersistentStore(at: dbURL, ofType:NSSQLiteStoreType , options: nil)
         
         try addStoreTo(coordinator: self.coordinator, storeType: NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: nil)
@@ -128,7 +128,7 @@ extension CoreData {
     
     func performBackgroundImportingBatchOperation(_ batch: @escaping BatchTask) {
         
-     
+        
         let tmpCoord = NSPersistentStoreCoordinator(managedObjectModel: self.model)
         
         
@@ -138,12 +138,12 @@ extension CoreData {
             fatalError("Error adding a SQLite Store: \(error)")
         }
         
-    
+        
         let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         moc.name = "Importer"
         moc.persistentStoreCoordinator = tmpCoord
         
-     
+        
         moc.perform(){
             batch(moc)
             
@@ -164,7 +164,7 @@ extension CoreData {
 extension CoreData {
     
     func save() {
-       
+        
         context.performAndWait(){
             
             if self.context.hasChanges{
@@ -173,7 +173,7 @@ extension CoreData {
                 }catch{
                     fatalError("Error while saving main context: \(error)")
                 }
-        
+                
                 self.persistingContext.perform(){
                     do{
                         try self.persistingContext.save()

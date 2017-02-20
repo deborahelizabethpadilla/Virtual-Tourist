@@ -11,13 +11,11 @@ import MapKit
 import CoreData
 
 class PhotosViewController: UIViewController {
-
+    
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var newCollectionButton: UIBarButtonItem!
     @IBOutlet var collectionViewOutlet: UICollectionView!
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         

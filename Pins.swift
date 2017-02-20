@@ -12,7 +12,7 @@ import CoreData
 class Pins: NSManagedObject {
         
         convenience init(dictionary: [String:AnyObject], context: NSManagedObjectContext) {
-            if let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context) {
+            if let entity = NSEntityDescription.entity(forEntityName: "Pins", in: context) {
                 self.init(entity: entity, insertInto: context)
                 self.latitude = dictionary["latitude"] as! Double as NSNumber
                 self.longitude = dictionary["longitude"] as! Double as NSNumber

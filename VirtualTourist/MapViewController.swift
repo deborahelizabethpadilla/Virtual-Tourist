@@ -14,10 +14,10 @@ class MapViewController: UIViewController {
 
     @IBOutlet var mapView: MKMapView!
     
-    var locations = [Pin]()
+    var locations = [Pins]()
     
     var sharedContext: NSManagedObjectContext {
-        return (CoreDataStack.sharedInstance?.context)!
+        return (CoreData.sharedInstance?.context)!
     }
     
     override func viewDidLoad() {
@@ -58,11 +58,11 @@ class MapViewController: UIViewController {
     }
     
     func fetchAllPins() -> [Pin] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pins")
         do {
             return try sharedContext.fetch(fetchRequest) as! [Pin]
         } catch let error as NSError {
-            print("Error fetching pins: \(error)")
+            print("Error Getting Pins: \(error)")
             return [Pin]()
         }
     }
@@ -77,7 +77,7 @@ class MapViewController: UIViewController {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let coordinate = view.annotation?.coordinate
-        let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotoViewController") as! PhotoViewController
+        let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
         for pin in locations {
             if (coordinate?.latitude == pin.latitude && coordinate?.longitude == pin.longitude) {
                 photoVC.pin = pin

@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension Pin {
+extension Pins {
     
     @NSManaged: NSNumber?
     @NSManaged var longitude: NSNumber?

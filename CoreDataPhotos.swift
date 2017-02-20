@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension Photo {
+extension Photos {
     
     @NSManaged var path: String?
     @NSManaged var imageUrl: String?

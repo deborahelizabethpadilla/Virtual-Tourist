@@ -117,6 +117,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
                 self.mapView.addAnnotation(annotation)
                 
+                //Save To Core Data
+                
                 do {
                     
                     try context.save()

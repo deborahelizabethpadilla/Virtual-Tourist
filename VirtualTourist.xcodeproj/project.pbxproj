@@ -26,6 +26,7 @@
 		508E0AA21E58ECE30006F1D7 /* CoreDataPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0AA11E58ECE30006F1D7 /* CoreDataPhotos.swift */; };
 		508E0AA41E58ED000006F1D7 /* CoreDataPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0AA31E58ED000006F1D7 /* CoreDataPins.swift */; };
 		508E0AA61E58ED0F0006F1D7 /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E0AA51E58ED0F0006F1D7 /* CoreData.swift */; };
+		50F2199C1E5E975F00456107 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50F2199A1E5E975F00456107 /* CoreDataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		508E0AA11E58ECE30006F1D7 /* CoreDataPhotos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataPhotos.swift; sourceTree = "<group>"; };
 		508E0AA31E58ED000006F1D7 /* CoreDataPins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataPins.swift; sourceTree = "<group>"; };
 		508E0AA51E58ED0F0006F1D7 /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
+		50F2199B1E5E975F00456107 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 		5058D4151E2C830100CCD5B8 /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
+				50F2199A1E5E975F00456107 /* CoreDataModel.xcdatamodeld */,
 				5058D4161E2C830100CCD5B8 /* AppDelegate.swift */,
 			);
 			path = VirtualTourist;
@@ -335,6 +338,7 @@
 				506001821E52C861007855DB /* Pins.swift in Sources */,
 				5060017B1E52C79C007855DB /* PhotosViewController.swift in Sources */,
 				506001741E52C621007855DB /* FlickrAssist.swift in Sources */,
+				50F2199C1E5E975F00456107 /* CoreDataModel.xcdatamodeld in Sources */,
 				508E0AA41E58ED000006F1D7 /* CoreDataPins.swift in Sources */,
 				508E0AA61E58ED0F0006F1D7 /* CoreData.swift in Sources */,
 				5058D4191E2C830100CCD5B8 /* MapViewController.swift in Sources */,
@@ -615,6 +619,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		50F2199A1E5E975F00456107 /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				50F2199B1E5E975F00456107 /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = 50F2199B1E5E975F00456107 /* CoreDataModel.xcdatamodel */;
+			name = CoreDataModel.xcdatamodeld;
+			path = ../CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5058D40B1E2C830100CCD5B8 /* Project object */;
 }

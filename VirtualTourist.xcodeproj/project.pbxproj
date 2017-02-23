@@ -20,6 +20,7 @@
 		506001851E52C8E9007855DB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506001841E52C8E9007855DB /* MapKit.framework */; };
 		5086D71D1E5F77430010748D /* Pins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086D71C1E5F77430010748D /* Pins.swift */; };
 		5086D71F1E5F7B4E0010748D /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086D71E1E5F7B4E0010748D /* CollectionViewCell.swift */; };
+		5086D7211E5F9DC10010748D /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086D7201E5F9DC10010748D /* Photos.swift */; };
 		508E0AA01E58E8260006F1D7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508E0A9F1E58E8260006F1D7 /* CoreData.framework */; };
 		50F2199C1E5E975F00456107 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50F2199A1E5E975F00456107 /* CoreDataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,7 @@
 		506001841E52C8E9007855DB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5086D71C1E5F77430010748D /* Pins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pins.swift; sourceTree = "<group>"; };
 		5086D71E1E5F7B4E0010748D /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		5086D7201E5F9DC10010748D /* Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		508E0A9F1E58E8260006F1D7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		50F2199B1E5E975F00456107 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,6 +152,7 @@
 				5060017A1E52C79C007855DB /* PhotosViewController.swift */,
 				5086D71C1E5F77430010748D /* Pins.swift */,
 				5086D71E1E5F7B4E0010748D /* CollectionViewCell.swift */,
+				5086D7201E5F9DC10010748D /* Photos.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5086D7211E5F9DC10010748D /* Photos.swift in Sources */,
 				5060017B1E52C79C007855DB /* PhotosViewController.swift in Sources */,
 				506001741E52C621007855DB /* FlickrConstants.swift in Sources */,
 				5086D71F1E5F7B4E0010748D /* CollectionViewCell.swift in Sources */,

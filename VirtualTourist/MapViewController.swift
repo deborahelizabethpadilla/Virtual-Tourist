@@ -22,6 +22,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Set Delegate
+        
+        mapView.delegate = self
+        
         getPin()
         
         //Add Long Press Gesture Recognizer
@@ -72,13 +76,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Transition To Photo Album When Pin Is Tapped
     
     func getPin() {
-    
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         
         do {
+            
             let results = try managedContext.fetch(fetchRequest)
             pins = results as! [NSManagedObject]
             
@@ -94,6 +99,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.mapView.delegate = self
                 
                 self.mapView.addAnnotation(annotation)
+                
             }
         }
         catch let error as NSError {
@@ -106,10 +112,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelectPinView view: MKAnnotationView) {
         
+        let coordinate = view.annotation?.coordinate
+        
+        let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
+        
         print("Pin Tapped!")
+    
+    
     }
+
     
-    }
-    
-    
+}
+
+
 

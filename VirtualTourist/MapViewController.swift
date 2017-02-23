@@ -61,6 +61,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func addAnnotation(gesture: UILongPressGestureRecognizer) {
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext
+        
         if gesture.state == .ended {
             
             let point = gesture.location(in: self.mapView)
@@ -69,6 +72,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             self.mapView.addAnnotation(annotation)
+            
+            //Save To Core Data
+            
+            do {
+                
+                try context.save()
+                
+            } catch {
+                
+                print("There Was A Problem!")
+                
+            }
+            
+            
         }
         
     }
@@ -78,13 +95,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func getPin() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        let context = appDelegate.managedObjectContext
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         
         do {
             
-            let results = try managedContext.fetch(fetchRequest)
+            let results = try! context.fetch(fetchRequest)
             pins = results as! [NSManagedObject]
             
             for pin in pins {
@@ -100,11 +117,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
                 self.mapView.addAnnotation(annotation)
                 
-            }
-        }
-        catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
+                do {
+                    
+                    try context.save()
+                    
+                } catch {
+                    
+                print("There Was A Problem!")
+                    
+                }
         
     }
     
@@ -113,6 +134,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelectPinView view: MKAnnotationView) {
         
         let coordinate = view.annotation?.coordinate
+        
         
         let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
         
@@ -124,5 +146,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
 }
 
+}
 
+}
 

@@ -10,50 +10,33 @@ import UIKit
 import MapKit
 import CoreData
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet var mapView: MKMapView!
     
+    let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Set AppDelegate With Core Data
+        //Ask User For Authorization And Activate
         
-        let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.locationManager.requestAlwaysAuthorization()
         
-        let context: NSManagedObjectContext = appDel.managedObjectContext
+        self.locationManager.requestWhenInUseAuthorization()
         
-        var newPin = NSEntityDescription.insertNewObject(forEntityName: "Pin", into: context)
-        
-        newPin.setValue("Pins", forKey: "latitude")
-        
-        do {
-            
-           try context.save()
-            
-        } catch {
-            
-            print("Oh No! There's A Problem!")
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self as? CLLocationManagerDelegate
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
         }
         
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         
-        request.returnsObjectsAsFaults = false
-        
-        do {
-        
-        let results = try context.execute(request)
-            
-            print(results)
-        
-        print(results)
-        
-        } catch {
-            
-            print("Results Failed!")
-        }
-
-}
-
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
+    
 }

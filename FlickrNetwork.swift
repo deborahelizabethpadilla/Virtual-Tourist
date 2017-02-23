@@ -11,6 +11,7 @@ import Foundation
 struct Constants {
     
     struct Flickr {
+        
         static let APIScheme = "https"
         static let APIHost = "api.flickr.com"
         static let APIPath = "/services/rest"
@@ -22,6 +23,7 @@ struct Constants {
     }
     
     struct FlickrParameterKeys {
+        
         static let Method = "method"
         static let APIKey = "api_key"
         static let GalleryID = "gallery_id"
@@ -35,6 +37,7 @@ struct Constants {
     }
     
     struct FlickrParameterValues {
+        
         static let SearchMethod = "flickr.photos.search"
         static let APIKey = "366de32d20f63b3ddb729f6085bfb88c"
         static let ResponseFormat = "json"
@@ -46,6 +49,7 @@ struct Constants {
     }
     
     struct FlickrResponseKeys {
+        
         static let Status = "stat"
         static let Photos = "photos"
         static let Photo = "photo"
@@ -56,6 +60,7 @@ struct Constants {
     }
     
     struct FlickrResponseValues {
+        
         static let OKStatus = "ok"
     }
 }

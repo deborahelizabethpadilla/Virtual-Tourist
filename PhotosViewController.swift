@@ -19,17 +19,9 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.collectionViewOutlet.delegate = (self as! UICollectionViewDelegate)
         
-        self.collectionViewOutlet.dataSource = (self as! UICollectionViewDataSource)
-        
-        self.collectionViewOutlet.allowsMultipleSelection = true
     }
     
-    func accessMapView() {
-        
-        let annotaion = MKPointAnnotation()
-        annotaion.coordinate = CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
-    }
+    
 }
 

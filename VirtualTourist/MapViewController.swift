@@ -18,6 +18,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
 }
 

@@ -20,6 +20,8 @@ class MapViewController: UIViewController {
         
         let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
+        let context: NSManagedObjectContext = appDel.managedObjectContext
+        
 }
 
 

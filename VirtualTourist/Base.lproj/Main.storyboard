@@ -145,6 +145,10 @@
                                                         <constraint firstAttribute="height" constant="76" id="rqu-Mm-3Nl"/>
                                                     </constraints>
                                                 </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s46-49-grj">
+                                                    <rect key="frame" x="30" y="28" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -154,7 +158,8 @@
                                             <constraint firstItem="zZN-P5-Imu" firstAttribute="top" secondItem="66o-MD-99F" secondAttribute="top" id="roW-e4-puc"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imageView" destination="zZN-P5-Imu" id="DM5-gR-leb"/>
+                                            <outlet property="activityIndicator" destination="s46-49-grj" id="ELQ-O3-cOr"/>
+                                            <outlet property="imageView" destination="zZN-P5-Imu" id="viA-5D-Gy8"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

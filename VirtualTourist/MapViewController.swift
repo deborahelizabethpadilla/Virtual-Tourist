@@ -137,7 +137,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         let coordinate = view.annotation?.coordinate
         
-        
         let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
         
         print("Pin Tapped!")

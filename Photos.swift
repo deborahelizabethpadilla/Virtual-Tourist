@@ -20,6 +20,16 @@ class Photos: NSManagedObject {
         
     }
     
+    init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        
+        let entity = NSEntityDescription.entity(forEntityName: "Photo", in: context)!
+        super.init(entity: entity, insertInto: context)
+        self.url = photoURL
+        self.pin = pin
+        print("init from Photos.swift\(url)")
+        
+    }
+    
     override func prepareForDeletion() {
         
         

@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import CoreData
+
+
+class Photos: NSManagedObject {
+ 
+    
+    
+}

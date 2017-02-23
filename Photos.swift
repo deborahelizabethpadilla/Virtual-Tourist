@@ -15,4 +15,14 @@ class Photos: NSManagedObject {
     
     //Managed By Core Data
  
-  
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
+        
+    }
+    
+    override func prepareForDeletion() {
+        
+        
+    }
+    
+}

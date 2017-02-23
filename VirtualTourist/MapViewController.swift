@@ -22,6 +22,8 @@ class MapViewController: UIViewController {
         
         let context: NSManagedObjectContext = appDel.managedObjectContext
         
+        var newPin = NSEntityDescription.insertNewObject(forEntityName: "Pin", into: context)
+        
 }
 
 

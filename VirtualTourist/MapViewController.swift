@@ -16,13 +16,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     let locationManager = CLLocationManager()
     
+    var pins = [NSManagedObject]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getPin()
         
         //Add Long Press Gesture Recognizer
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation(gesture:)))
-        longPressGesture.minimumPressDuration = 1.0
+        longPressGesture.minimumPressDuration = 1.5
         self.mapView.addGestureRecognizer(longPressGesture)
         
         //Ask User For Authorization And Activate
@@ -53,16 +58,58 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func addAnnotation(gesture: UILongPressGestureRecognizer) {
         
         if gesture.state == .ended {
+            
             let point = gesture.location(in: self.mapView)
             let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
             print(coordinate)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            annotation.title = "Title"
-            annotation.subtitle = "subtitle"
             self.mapView.addAnnotation(annotation)
         }
         
     }
     
-}
+    //Transition To Photo Album When Pin Is Tapped
+    
+    func getPin() {
+    
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            pins = results as! [NSManagedObject]
+            
+            for pin in pins {
+                let pinLat = pin.value(forKey: "latitude") as! Double
+                let pinLon = pin.value(forKey: "longitude") as! Double
+                
+                let pinCoordinate = CLLocationCoordinate2D(latitude: pinLat, longitude: pinLon)
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = pinCoordinate
+                
+                self.mapView.delegate = self
+                
+                self.mapView.addAnnotation(annotation)
+            }
+        }
+        catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    //Pin Tapped
+    
+    func mapView(_ mapView: MKMapView, didSelectPinView view: MKAnnotationView) {
+        
+        print("Pin Tapped!")
+    }
+    
+    }
+    
+    
+

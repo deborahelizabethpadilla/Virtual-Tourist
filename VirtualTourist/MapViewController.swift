@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
     @IBOutlet var mapView: MKMapView!
     
@@ -21,6 +21,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Set Fetched Results
+        
+        do {
+            
+            try fetchedResultsController.performFetch()
+            
+        } catch _ {
+            
+        }
+        
+        fetchedResultsController.delegate = self
         
         //Set Delegate
         
@@ -125,29 +137,43 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     
                 } catch {
                     
-                print("There Was A Problem!")
+                    print("There Was A Problem!")
                     
                 }
+                
+            }
+            
+            //Pin Tapped
+            
+            func mapView(_ mapView: MKMapView, didSelectPinView view: MKAnnotationView) {
+                
+                let coordinate = view.annotation?.coordinate
+                
+                let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
+                
+                print("Pin Tapped!")
+                
+                
+            }
+            
+            //Fetched Results Controller Info
+            
+            var fetchedResultsController: NSFetchedResultsController = { () -> NSFetchedResultsController<NSFetchRequestResult> in 
+                
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+                
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: true)]
+                
+                let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+                
+                return fetchedResultsController
+                
+            }()
+            
+            
+        }
         
     }
     
-    //Pin Tapped
-    
-    func mapView(_ mapView: MKMapView, didSelectPinView view: MKAnnotationView) {
-        
-        let coordinate = view.annotation?.coordinate
-        
-        let photoVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
-        
-        print("Pin Tapped!")
-    
-    
-    }
-
-    
-}
-
-}
-
 }
 

@@ -61,6 +61,11 @@ class PhotosViewController: UIViewController {
         
         if pin.photos.
     }
+    
+    func loadNew() {
+        
+        
+    }
 
 }
     

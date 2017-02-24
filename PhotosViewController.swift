@@ -16,8 +16,6 @@ class PhotosViewController: UIViewController {
     @IBOutlet var newCollectionButton: UIBarButtonItem!
     @IBOutlet var collectionViewOutlet: UICollectionView!
     
-    let locationManager2 = CLLocationManager()
-    
     var pins = [NSManagedObject]()
     
     override func viewDidLoad() {

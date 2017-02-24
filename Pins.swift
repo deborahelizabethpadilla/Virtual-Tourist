@@ -11,6 +11,16 @@ import CoreData
 
 class Pins: NSManagedObject {
     
-  
+    convenience init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
+        
+        if let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context) {
+            
+            self.init(entity: entity, insertInto: context)
+            
+        } else {
+            
+            fatalError("Not Able To Find Entity Name!")
+        }
+    }
     
 }

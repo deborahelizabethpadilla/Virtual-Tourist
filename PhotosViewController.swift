@@ -25,7 +25,7 @@ class PhotosViewController: UIViewController {
         
         //Set Delegate
         
-        mapView.delegate = self as! MKMapViewDelegate
+        mapView.delegate = self as? MKMapViewDelegate
         
         getPin()
         
@@ -116,7 +116,7 @@ class PhotosViewController: UIViewController {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = pinCoordinate
                 
-                self.mapView.delegate = self as! MKMapViewDelegate
+                self.mapView.delegate = self as? MKMapViewDelegate
                 
                 self.mapView.addAnnotation(annotation)
                 

@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Pins: NSManagedObject {
+class Pin: NSManagedObject {
     
     struct Components {
         

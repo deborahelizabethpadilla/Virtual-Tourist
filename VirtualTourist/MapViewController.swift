@@ -107,13 +107,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             //Adds and Saves To Map
             
-            func setInitialMapView() {
+            func setMapView() {
                 let defaults = UserDefaults.standard
                 var mapDefaultsSet: Bool
-                mapDefaultsSet = defaults.bool(forKey: FlickrNetwork.FlickrResponseValues.StartMapPositionSaved)
+                mapDefaultsSet = defaults.bool(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapPositionSaved)
                 
                 if mapDefaultsSet {
-                    let startCenterLatitude = defaults.double(forKey: FlickrNetwork.FlickrResponseValues.StartMapCenterLatitude)
+                    let startCenterLatitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapCenterLatitude)
                     let startCenterLongitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapCenterLongitude)
                     let startDeltaLatitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapDeltaLatitude)
                     let startDeltaLongitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapDeltaLongitude)
@@ -182,13 +182,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let longitudePredicate = NSPredicate(format: "longitude = %@", NSNumber(value: (view.annotation?.coordinate.longitude)! as Double))
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
         
-        var pin: Pin
+        var pin: Pins
         
         do {
             
-            let result = try context.fetch(fetchRequest) as! [Pin]
+            let result = try context.fetch(fetchRequest) as! [Pins]
             if result.count > 0 {
-                pin = result.first! as Pin
+                pin = result.first! as Pins
                 self.mapView.deselectAnnotation(view.annotation, animated: true)
                 self.performSegue(withIdentifier: "PhotosViewController", sender: pin)
             }

@@ -21,16 +21,20 @@ class Photo: NSManagedObject {
     var url: URL?
     
     override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        
         super.init(entity:entity, insertInto: context)
     }
     
     init(url: URL, pin: Pins, context: NSManagedObjectContext) {
+        
         let entity = NSEntityDescription.entity(forEntityName: "Photo", in: context)!
+        
         super.init(entity: entity, insertInto: context)
         
         self.url = url
-
+        
         self.path = (url.lastPathComponent)
+        
         self.photo_pin = pin
         
     }
@@ -40,8 +44,9 @@ class Photo: NSManagedObject {
     override func prepareForDeletion() {
         
         let photoPath = documentsDirectory.appendingPathComponent(path)
+        
         do {
-           
+            
             if FileManager.default.fileExists(atPath: photoPath) {
                 
                 try FileManager.default.removeItem(atPath: photoPath)

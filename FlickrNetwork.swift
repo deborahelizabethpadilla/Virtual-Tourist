@@ -22,7 +22,7 @@ class FlickrNetwork: NSObject {
     
     var session: URLSession
     
-
+    
     static var page = 0
     
     override init() {
@@ -55,55 +55,72 @@ class FlickrNetwork: NSObject {
         
         let task = session.dataTask(with: request, completionHandler: { data, response, error in
             guard (error == nil) else {
+                
                 print("Could not complete the request \(String(describing: error))")
+                
                 return
             }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? HTTPURLResponse {
+                    
                     print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                    
                 } else if let response = response {
+                    
                     print("Your request returned an invalid response! Response: \(response)!")
+                    
                 } else {
+                    
                     print("Your request returned an invalid response!")
                 }
                 return
             }
             
             guard let data = data else {
+                
                 print("No data was returned")
                 return
             }
             
-            let parsedResult: AnyObject!
+            let parsedResult: Any!
+            
             do {
+                
                 parsedResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+                
             } catch {
+                
                 parsedResult = nil
                 print("Could not parse the data as JSON: '\(data)'")
                 return
             }
             
             guard let stat = parsedResult["stat"] as? String, stat == "ok" else {
+                
                 print("Flickr API returned an error. See error code and message in \(parsedResult)")
                 return
             }
             
-            guard let photosDictionary = parsedResult.value(forKey: "photos") as? NSDictionary else {
+            guard let photosDictionary = (parsedResult as AnyObject).value(forKey: "photos") as? NSDictionary else {
+                
                 print("Cannot find key 'photos' in \(parsedResult)")
                 return
             }
             
             if let pages = photosDictionary["pages"] as? Int {
+                
                 totalPages = pages
             }
             
             if totalPages == 0 {
+                
                 completionHandler(false, nil)
                 return
             }
             
             if +FlickrNetwork.page > totalPages {
+                
                 FlickrNetwork.page = 1
             }
         })
@@ -148,7 +165,7 @@ class FlickrNetwork: NSObject {
                 return
             }
             
-            let parsedResult: AnyObject!
+            let parsedResult: Any!
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
             } catch {
@@ -162,7 +179,7 @@ class FlickrNetwork: NSObject {
                 return
             }
             
-            guard let photosDictionary = parsedResult.value(forKey: "photos") as? NSDictionary else {
+            guard let photosDictionary = (parsedResult as AnyObject).value(forKey: "photos") as? NSDictionary else {
                 print("Cannot find key 'photos' in \(parsedResult)")
                 return
             }
@@ -179,11 +196,11 @@ class FlickrNetwork: NSObject {
                 }
                 
                 let photoSet: NSMutableSet = NSMutableSet()
-          
+                
                 for photo in photosArray {
                     
                     self.sharedContext.performAndWait( {
-                      
+                        
                         let newPhoto = Photo(url: self.getFlickrUrlForPhoto(photo), pin: pin, context: self.sharedContext)
                         
                         self.getPhotoFromUrl(newPhoto.url!) { data, error in
@@ -206,7 +223,7 @@ class FlickrNetwork: NSObject {
     
     func getPhotoFromUrl(_ url: URL, completionHandler: @escaping PhotoDataCompletionHandler) {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
-
+            
             if let imageData = try? Data(contentsOf: url) {
                 let photoPath = documentsDirectory.appendingPathComponent(url.lastPathComponent)
                 try? imageData.write(to: URL(fileURLWithPath: photoPath), options: [.atomic])
@@ -252,9 +269,9 @@ class FlickrNetwork: NSObject {
         var urlVars = [String]()
         
         for (key, value) in parameters {
-
+            
             let stringValue = "\(value)"
-    
+            
             let escapedValue = stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
             
             urlVars += [key + "=" + "\(escapedValue!)"]
@@ -267,7 +284,7 @@ class FlickrNetwork: NSObject {
     //Returns URL
     
     func getFlickrUrlForPhoto(_ photoData : [String : AnyObject]) -> URL {
-
+        
         var farm = photoData[JSONResponseKeys.Farm] as? String
         if farm == nil {
             farm = "1"

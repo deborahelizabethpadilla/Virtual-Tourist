@@ -20,6 +20,7 @@ class Pins: NSManagedObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D {
         
         get {
+            
             return CLLocationCoordinate2DMake(Double(latitude), Double(longitude))
         }
     }
@@ -32,6 +33,7 @@ class Pins: NSManagedObject, MKAnnotation {
     init(latitude: Double, longitude: Double, photos: NSSet, context: NSManagedObjectContext) {
         
         let entity = NSEntityDescription.entity(forEntityName: "Pins", in: context)!
+        
         super.init(entity: entity, insertInto: context)
         
         self.latitude = latitude as NSNumber

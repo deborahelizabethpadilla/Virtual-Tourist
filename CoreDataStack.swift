@@ -13,7 +13,7 @@ private let SQLITE_FILE_NAME = "VirtualTourist.sqlite"
 
 class CoreDataStack {
     
-  //Shared Delegate
+    //Shared Delegate
     
     class func sharedInstance() -> CoreDataStack {
         
@@ -62,7 +62,7 @@ class CoreDataStack {
             
             error = error1
             coordinator = nil
-    
+            
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject
             dict[NSLocalizedFailureReasonErrorKey] = "There was an error creating or loading the application's saved data." as AnyObject

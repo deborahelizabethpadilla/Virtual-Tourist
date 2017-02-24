@@ -54,15 +54,15 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setMapToPin()
-
+        
         newCollectionButton.isEnabled = false
-  
+        
         collectionViewOutlet.register(UINib(nibName: "CollectionCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
         collectionViewOutlet.delegate = self as UICollectionViewDelegate
         collectionViewOutlet.dataSource = self as? UICollectionViewDataSource
-
+        
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PhotosViewController.tappedCell(_:)))
         self.collectionViewOutlet.addGestureRecognizer(tapRecognizer)
         
@@ -124,17 +124,17 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
         
         cell.activityIndicator.isHidden = false
         cell.activityIndicator.startAnimating()
-
+        
         cell.imageView.image = UIImage(named: "collectionImage")
-
+        
         guard (fetchedResultsController.fetchedObjects?.count != 0) else {
             return cell
         }
-
+        
         let p = fetchedResultsController.object(at: indexPath) as! Photo
         
         var imageData: Data?
-
+        
         let photoPath = documentsDirectory.appendingPathComponent(p.path)
         if fileManager.fileExists(atPath: photoPath) {
             imageData  = try! Data(contentsOf: URL(fileURLWithPath: photoPath))
@@ -145,7 +145,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
                 cell.activityIndicator.stopAnimating()
             })
         } else {
-
+            
             if let photoUrl = p.url {
                 FlickrNetwork.sharedInstance().getPhotoFromUrl(photoUrl) { data, error in
                     
@@ -175,7 +175,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
     //Delete Photo When Tapped
     
     func tappedCell(_ gestureRecognizer: UITapGestureRecognizer) {
-
+        
         let tappedPoint: CGPoint = gestureRecognizer.location(in: collectionViewOutlet)
         if let tappedCellPath: IndexPath = collectionViewOutlet.indexPathForItem(at: tappedPoint) {
             let photo = fetchedResultsController.object(at: tappedCellPath) as! Photo
@@ -191,12 +191,12 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
     //Fetching Photos Within Pin
     
     func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-
+        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
-
+        
         let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
-
+        
         fetchRequest.predicate = NSPredicate(format: "photo_pin == %@", self.pin)
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: sharedContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
@@ -247,7 +247,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
             if hasPhotos {
                 
                 do {
-
+                    
                     
                     try self.fetchedResultsController.performFetch()
                     
@@ -264,7 +264,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
                     print("Error fetching photos for pin: \(error)")
                 }
             } else {
-        
+                
                 DispatchQueue.main.async(execute: {
                     
                     self.noPhotos.isHidden = false
@@ -273,7 +273,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
             }
         }
     }
-
+    
     //Set Pins On Map
     
     func setMapToPin() {
@@ -290,9 +290,9 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
 }
 
 
-    //Design Cells In Collection View
+//Design Cells In Collection View
 
-    extension PhotosViewController: UICollectionViewDelegateFlowLayout {
+extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -310,8 +310,8 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
 }
 
 
-    extension PhotosViewController {
-
+extension PhotosViewController {
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {

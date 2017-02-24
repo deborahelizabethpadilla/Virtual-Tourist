@@ -19,7 +19,7 @@ class Pins: NSManagedObject {
             
         } else {
             
-            fatalError("Not Able To Find Entity Name!")
+            fatalError("Not Able To Locate!")
         }
     }
     

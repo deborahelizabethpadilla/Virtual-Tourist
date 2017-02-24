@@ -105,9 +105,13 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
     //How Many Returned
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         if let count = fetchedResultsController.fetchedObjects?.count {
+            
             return count
+            
         } else {
+            
             return 0
         }
     }
@@ -305,7 +309,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
 }
 
 
-    extension PhotosViewController: NSFetchedResultsControllerDelegate {
+    extension PhotosViewController {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         

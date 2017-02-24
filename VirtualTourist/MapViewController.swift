@@ -76,7 +76,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             } catch let error  as NSError {
                 
                 print("Error saving new pin: \(error)")
-            }
+        }
             
             DispatchQueue.main.async(execute: {
                 
@@ -84,7 +84,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             })
         }
 
-        }
+    }
     
         //Set Location
         
@@ -103,7 +103,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
                 
                 print("Errors: " + error.localizedDescription)
-            }
+        }
             
             //Adds and Saves To Map
             
@@ -170,3 +170,32 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return view!
         
     }
+
+}
+    //Save Pin
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        
+        let latitudePredicate = NSPredicate(format: "latitude = %@", NSNumber(value: (view.annotation?.coordinate.latitude)! as Double))
+        let longitudePredicate = NSPredicate(format: "longitude = %@", NSNumber(value: (view.annotation?.coordinate.longitude)! as Double))
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
+        
+        var pin: Pin
+        
+        do {
+            
+            let result = try context.fetch(fetchRequest) as! [Pin]
+            if result.count > 0 {
+                pin = result.first! as Pin
+                self.mapView.deselectAnnotation(view.annotation, animated: true)
+                self.performSegue(withIdentifier: "PhotosViewController", sender: pin)
+            }
+        } catch let error as NSError {
+            print("Error Fetching Pin For The Annotation View: \(error)")
+        }
+    
+    }
+
+}

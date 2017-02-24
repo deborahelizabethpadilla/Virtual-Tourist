@@ -31,6 +31,14 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Collection Cell Set Up
+        
+        newCollectionButton.isEnabled = false
+        
+        collectionViewOutlet.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
+        collectionViewOutlet.delegate = self as? UICollectionViewDelegate
+        collectionViewOutlet.dataSource   = self as? UICollectionViewDataSource
+        
         //Annotation For Small Map
         
         let latDelta:CLLocationDegrees = 0.1
@@ -51,7 +59,9 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
         self.collectionViewOutlet.dataSource = self as? UICollectionViewDataSource
         self.collectionViewOutlet.allowsMultipleSelection = true
         
+        
+        
     }
-        
-        
-}
+    
+    
+    }

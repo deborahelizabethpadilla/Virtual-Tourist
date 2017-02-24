@@ -8,49 +8,35 @@
 
 import Foundation
 import CoreData
+import MapKit
 
-class Pin: NSManagedObject {
+class Pins: NSManagedObject, MKAnnotation {
     
-    struct Components {
+    @NSManaged var latitude: NSNumber
+    @NSManaged var longitude: NSNumber
+    @NSManaged var id: NSNumber
+    @NSManaged var pin_photo: NSSet
+    
+    var coordinate: CLLocationCoordinate2D {
         
-        static let Latitude = "latitude"
-        static let Longitude = "longitude"
-        static let Photos = "photos"
-    }
-    
-    //Core Data Properties
-    
-    @NSManaged var latitude: Double
-    @NSManaged var longitude: Double
-    @NSManaged var pins: [Pin]
-    @NSManaged var photos: [Photo]
-
-    
-    convenience init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
-        
-        if let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context) {
-            
-            self.init(entity: entity, insertInto: context)
-            
-        } else {
-            
-            fatalError("Not Able To Locate!")
+        get {
+            return CLLocationCoordinate2DMake(Double(latitude), Double(longitude))
         }
     }
     
-    //Core Data Init
-    
     override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        
         super.init(entity: entity, insertInto: context)
     }
     
-    init(dictionary: [String: AnyObject], context: NSManagedObjectContext) {
+    init(latitude: Double, longitude: Double, photos: NSSet, context: NSManagedObjectContext) {
         
-        let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context)!
+        let entity = NSEntityDescription.entity(forEntityName: "Pins", in: context)!
         super.init(entity: entity, insertInto: context)
         
-        latitude = dictionary[Components.Latitude] as! Double
-        longitude = dictionary[Components.Longitude] as! Double
+        self.latitude = latitude as NSNumber
+        self.longitude = longitude as NSNumber
+        pin_photo = photos
     }
     
 }

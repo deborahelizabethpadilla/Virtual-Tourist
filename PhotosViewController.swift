@@ -24,7 +24,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
     var startAnimate = 0
     var stopAnimate = 0
     var loadingComplete = false
-    var pin: Pin!
+    var pin: Pins!
     
     var Pins = [NSManagedObject]()
     

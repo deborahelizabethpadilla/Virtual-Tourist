@@ -13,7 +13,6 @@ private let SQLITE_FILE_NAME = "VirtualTourist.sqlite"
 
 class CoreDataStack {
     
-    
   //Shared Delegate
     
     class func sharedInstance() -> CoreDataStack {
@@ -56,8 +55,11 @@ class CoreDataStack {
         var error: NSError? = nil
         
         do {
+            
             try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+            
         } catch var error1 as NSError {
+            
             error = error1
             coordinator = nil
     

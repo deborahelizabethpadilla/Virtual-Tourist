@@ -130,6 +130,13 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <label key="backgroundView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO PHOTOS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ev0-kX-mfd" userLabel="NO PHOTOS">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="354"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="photoCell" reuseIdentifier="photoCell" id="66o-MD-99F" customClass="CollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="81" height="76"/>
@@ -187,6 +194,9 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="gjo-8U-hpB"/>
                         <barButtonItem title="New Collection" id="DzD-Ly-Jpz">
                             <color key="tintColor" red="0.96456640130000004" green="0.96757740410000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="newCollectionAction:" destination="9cO-6T-mJ3" id="XAb-4F-1KZ"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="hTO-Yj-ggm"/>
                     </toolbarItems>
@@ -195,6 +205,7 @@
                         <outlet property="collectionViewOutlet" destination="h3y-CC-cIK" id="c8a-4v-gel"/>
                         <outlet property="mapView" destination="kCd-DH-cD0" id="t3z-jh-61N"/>
                         <outlet property="newCollectionButton" destination="DzD-Ly-Jpz" id="zYD-Ac-Rxh"/>
+                        <outlet property="noPhotos" destination="ev0-kX-mfd" id="rkk-v9-8xx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,10 +21,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var context: NSManagedObjectContext = {
         return CoreDataStack.sharedInstance().managedObjectContext!
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //Initiate Map View
         
         mapView.delegate = self
@@ -35,9 +35,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-
+        
         self.mapView.showsUserLocation = true
- 
+        
         self.mapView.userTrackingMode = .follow
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation(gesture:)))
@@ -45,7 +45,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.mapView.addGestureRecognizer(longPressGesture)
         
     }
-
+    
     func addAnnotation(gesture: UILongPressGestureRecognizer) {
         
         //Set Long Gesture Recognizer
@@ -76,102 +76,102 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             } catch let error  as NSError {
                 
                 print("Error saving new pin: \(error)")
-        }
+            }
             
             DispatchQueue.main.async(execute: {
                 
                 self.mapView.addAnnotation(pins)
             })
         }
-
+        
     }
     
-        //Set Location
+    //Set Location
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+        func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+            
+            let location = locations.last
+            let center = CLLocationCoordinate2D(latitude: location!.coordinate.latitude, longitude: (location?.coordinate.longitude)!)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)) //zoom on map
+            self.mapView.setRegion(region, animated: true)
+            self.locationManager.stopUpdatingLocation()
+            
+        }
         
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             
-            func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-                
-                let location = locations.last
-                let center = CLLocationCoordinate2D(latitude: location!.coordinate.latitude, longitude: (location?.coordinate.longitude)!)
-                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)) //zoom on map
-                self.mapView.setRegion(region, animated: true)
-                self.locationManager.stopUpdatingLocation()
-
-            }
-            
-            func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-                
-                print("Errors: " + error.localizedDescription)
+            print("Errors: " + error.localizedDescription)
         }
+        
+        //Adds and Saves To Map
+        
+        func setMapView() {
+            let defaults = UserDefaults.standard
+            var mapDefaultsSet: Bool
+            mapDefaultsSet = defaults.bool(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapPositionSaved)
             
-            //Adds and Saves To Map
-            
-            func setMapView() {
-                let defaults = UserDefaults.standard
-                var mapDefaultsSet: Bool
-                mapDefaultsSet = defaults.bool(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapPositionSaved)
-                
-                if mapDefaultsSet {
-                    let startCenterLatitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapCenterLatitude)
-                    let startCenterLongitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapCenterLongitude)
-                    let startDeltaLatitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapDeltaLatitude)
-                    let startDeltaLongitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapDeltaLongitude)
-                    let centerCoordinate = CLLocationCoordinate2D(latitude: startCenterLatitude, longitude: startCenterLongitude)
-                    let centerSpan = MKCoordinateSpanMake(startDeltaLatitude, startDeltaLongitude)
-                    let region = MKCoordinateRegionMake(centerCoordinate, centerSpan)
-                    DispatchQueue.main.async(execute: {
-                        self.mapView.setRegion(region, animated: true)
-                    })
+            if mapDefaultsSet {
+                let startCenterLatitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapCenterLatitude)
+                let startCenterLongitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapCenterLongitude)
+                let startDeltaLatitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapDeltaLatitude)
+                let startDeltaLongitude = defaults.double(forKey: FlickrNetwork.NSUserDefaultKeys.StartMapDeltaLongitude)
+                let centerCoordinate = CLLocationCoordinate2D(latitude: startCenterLatitude, longitude: startCenterLongitude)
+                let centerSpan = MKCoordinateSpanMake(startDeltaLatitude, startDeltaLongitude)
+                let region = MKCoordinateRegionMake(centerCoordinate, centerSpan)
+                DispatchQueue.main.async(execute: {
+                    self.mapView.setRegion(region, animated: true)
+                })
                 
             }
-    
-    //Transition To Photo VC When Pin Is Tapped
-    
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-        
-        let latitudePredicate = NSPredicate(format: "latitude = %@", NSNumber(value: (view.annotation?.coordinate.latitude)! as Double))
-        let longitudePredicate = NSPredicate(format: "longitude = %@", NSNumber(value: (view.annotation?.coordinate.longitude)! as Double))
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
-        
-        var pin: Pins
-        
-        do {
             
-            let result = try context.fetch(fetchRequest) as! [Pins]
+            //Transition To Photo VC When Pin Is Tapped
             
-            if result.count > 0 {
+            func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
                 
-                pin = result.first! as Pins
-                self.mapView.deselectAnnotation(view.annotation, animated: true)
-                self.performSegue(withIdentifier: "PhotosViewController", sender: pin)
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+                
+                let latitudePredicate = NSPredicate(format: "latitude = %@", NSNumber(value: (view.annotation?.coordinate.latitude)! as Double))
+                let longitudePredicate = NSPredicate(format: "longitude = %@", NSNumber(value: (view.annotation?.coordinate.longitude)! as Double))
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
+                
+                var pin: Pins
+                
+                do {
+                    
+                    let result = try context.fetch(fetchRequest) as! [Pins]
+                    
+                    if result.count > 0 {
+                        
+                        pin = result.first! as Pins
+                        self.mapView.deselectAnnotation(view.annotation, animated: true)
+                        self.performSegue(withIdentifier: "PhotosViewController", sender: pin)
+                    }
+                    
+                } catch let error as NSError {
+                    
+                    print("Error fetching pin for the annotation view: \(error)")
+                }
+                
             }
             
-        } catch let error as NSError {
+        }
+        //Get The View
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView {
             
-            print("Error fetching pin for the annotation view: \(error)")
+            let reuseIdentifier = "pin"
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? MKPinAnnotationView
+            if view == nil {
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+            }
+            
+            return view!
+            
         }
         
     }
-
-}
-    //Get The View
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView {
-        
-        let reuseIdentifier = "pin"
-        var view = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? MKPinAnnotationView
-        if view == nil {
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        }
-        
-        return view!
-        
-    }
-
-}
     //Save Pin
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -195,7 +195,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         } catch let error as NSError {
             print("Error Fetching Pin For The Annotation View: \(error)")
         }
-    
+        
     }
-
+    
 }

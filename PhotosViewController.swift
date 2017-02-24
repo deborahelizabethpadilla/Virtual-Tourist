@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotosViewController: UIViewController {
+class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var newCollectionButton: UIBarButtonItem!
@@ -52,21 +52,6 @@ class PhotosViewController: UIViewController {
         self.collectionViewOutlet.allowsMultipleSelection = true
         
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-        //Download Images When Images Haven't Been Downloaded
-        
-        self.collectionViewOutlet = self.view.viewWithTag(1) as! UICollectionView
-        
-        if pin.photos.
-    }
-    
-    func loadNew() {
         
         
-    }
-
 }
-    
-   

@@ -145,7 +145,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="81" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zZN-P5-Imu">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="collectionImage" translatesAutoresizingMaskIntoConstraints="NO" id="zZN-P5-Imu">
                                                     <rect key="frame" x="0.0" y="0.0" width="81" height="76"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="81" id="kyA-AE-sXA"/>

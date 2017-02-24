@@ -125,7 +125,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
         cell.activityIndicator.isHidden = false
         cell.activityIndicator.startAnimating()
 
-        cell.image.image = UIImage(named: "placeholder")
+        cell.imageView.image = UIImage(named: "collectionImage")
 
         guard (fetchedResultsController.fetchedObjects?.count != 0) else {
             return cell
@@ -140,7 +140,8 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
             imageData  = try! Data(contentsOf: URL(fileURLWithPath: photoPath))
             DispatchQueue.main.async(execute: {
                 
-                cell.image.image = UIImage(data: imageData!)
+                cell.imageView.image = UIImage(data: imageData!)
+                
                 cell.activityIndicator.stopAnimating()
             })
         } else {
@@ -153,7 +154,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
                         imageData = data
                         DispatchQueue.main.async(execute: {
                             
-                            cell.image.image = UIImage(data: imageData!)
+                            cell.imageView.image = UIImage(data: imageData!)
                             cell.activityIndicator.stopAnimating()
                         })
                         

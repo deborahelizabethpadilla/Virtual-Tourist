@@ -95,7 +95,9 @@ class FlickrNetwork: NSObject {
                 return
             }
             
-            guard let stat = parsedResult["stat"] as? String, stat == "ok" else {
+            guard let parsedDictionary = parsedResult as? [String: Any],
+                let stat = parsedDictionary ["stat"] as? String,
+                stat == "ok" else {
                 
                 print("Flickr API returned an error. See error code and message in \(parsedResult)")
                 return
@@ -173,7 +175,10 @@ class FlickrNetwork: NSObject {
                 return
             }
             
-            guard let stat = parsedResult["stat"] as? String, stat == "ok" else {
+            guard let parsedDictionary = parsedResult as? [String: Any],
+                let stat = parsedDictionary ["stat"] as? String,
+                stat == "ok" else {
+                    
                 print("Flickr API returned an error. See error code and message in \(parsedResult)")
                 return
             }

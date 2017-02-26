@@ -21,8 +21,7 @@ let documentsDirectory: NSString = NSSearchPathForDirectoriesInDomains(.document
 class FlickrNetwork: NSObject {
     
     var session: URLSession
-    
-    
+
     static var page = 0
     
     override init() {
@@ -303,4 +302,5 @@ class FlickrNetwork: NSObject {
         
         return Singleton.sharedInstance
     }
+    
 }

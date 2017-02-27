@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class Photo: NSManagedObject {
+class Photos: NSManagedObject {
     
     @NSManaged var path: String
     @NSManaged var id: NSNumber
@@ -58,6 +58,6 @@ class Photo: NSManagedObject {
         }
     }
     
-    
 }
+
 

@@ -205,7 +205,7 @@ class FlickrNetwork: NSObject {
                     
                     self.sharedContext.performAndWait( {
                         
-                        let newPhoto = Photo(url: self.getFlickrUrlForPhoto(photo), pin: pin, context: self.sharedContext)
+                        let newPhoto = Photos(url: self.getFlickrUrlForPhoto(photo), pin: pin, context: self.sharedContext)
                         
                         self.getPhotoFromUrl(newPhoto.url!) { data, error in
                             guard (error == nil) else {

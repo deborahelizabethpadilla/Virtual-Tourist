@@ -135,7 +135,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
         
         var imageData: Data?
         
-        let photoPath = documentsDirectory.appendingPathComponent(p.path)
+        let photoPath = documentsDirectory.appendingPathComponent(p.path!)
         if fileManager.fileExists(atPath: photoPath) {
             imageData  = try! Data(contentsOf: URL(fileURLWithPath: photoPath))
             DispatchQueue.main.async(execute: {
@@ -144,6 +144,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
                 
                 cell.activityIndicator.stopAnimating()
             })
+            
         } else {
             
             if let photoUrl = p.url {

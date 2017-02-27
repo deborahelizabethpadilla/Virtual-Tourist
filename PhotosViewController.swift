@@ -131,11 +131,11 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
             return cell
         }
         
-        let p = fetchedResultsController.object(at: indexPath) as! Photo
+        let p = fetchedResultsController.object(at: indexPath) as! Photos
         
         var imageData: Data?
         
-        let photoPath = documentsDirectory.appendingPathComponent(p.path!)
+        let photoPath = documentsDirectory.appendingPathComponent(p.path)
         if fileManager.fileExists(atPath: photoPath) {
             imageData  = try! Data(contentsOf: URL(fileURLWithPath: photoPath))
             DispatchQueue.main.async(execute: {
@@ -179,7 +179,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
         
         let tappedPoint: CGPoint = gestureRecognizer.location(in: collectionViewOutlet)
         if let tappedCellPath: IndexPath = collectionViewOutlet.indexPathForItem(at: tappedPoint) {
-            let photo = fetchedResultsController.object(at: tappedCellPath) as! Photo
+            let photo = fetchedResultsController.object(at: tappedCellPath) as! Photos
             sharedContext.delete(photo)
             do {
                 try sharedContext.save()
@@ -212,7 +212,7 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
             
             for photo in pin.pin_photo {
                 
-                sharedContext.delete(photo as! Photo)
+                sharedContext.delete(photo as! Photos)
             }
             
             do {

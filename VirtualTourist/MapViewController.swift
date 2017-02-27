@@ -64,7 +64,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = "Title"
-            annotation.subtitle = "subtitle"
+            annotation.subtitle = "Subtitle"
             self.mapView.addAnnotation(annotation)
             
             let pins = Pins(latitude: coordinate.latitude, longitude: coordinate.longitude, photos: NSSet(), context: context)

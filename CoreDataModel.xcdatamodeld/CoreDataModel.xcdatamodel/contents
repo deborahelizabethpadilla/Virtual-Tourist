@@ -6,7 +6,7 @@
         <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="photo_pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="pin_photo" inverseEntity="Pin" syncable="YES"/>
     </entity>
-    <entity name="Pin" representedClassName="Pin" syncable="YES" codeGenerationType="class">
+    <entity name="Pin" representedClassName="Pin" syncable="YES">
         <attribute name="existingPhoto" optional="YES" attributeType="Integer 64" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Float" usesScalarValueType="YES" syncable="YES"/>

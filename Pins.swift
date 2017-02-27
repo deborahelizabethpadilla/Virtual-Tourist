@@ -21,7 +21,8 @@ class Pins: NSManagedObject, MKAnnotation {
         
         get {
             
-            return CLLocationCoordinate2DMake(Double(latitude), Double(longitude))
+            return CLLocationCoordinate2DMake(Double(latitude), Double(longitude)) 
+            
         }
     }
     

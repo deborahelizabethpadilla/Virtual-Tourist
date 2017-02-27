@@ -109,7 +109,11 @@
                                     <constraint firstAttribute="height" constant="44" id="Tz8-nq-BZs"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="OK" id="Kvs-eU-VMU"/>
+                                    <barButtonItem title="OK" id="Kvs-eU-VMU">
+                                        <connections>
+                                            <segue destination="nhS-YZ-yeT" kind="show" id="8N7-oc-REI"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-DH-cD0">
@@ -213,4 +217,7 @@
             <point key="canvasLocation" x="1584.8" y="-559.07046476761627"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ay2-xq-Ub2"/>
+    </inferredMetricsTieBreakers>
 </document>

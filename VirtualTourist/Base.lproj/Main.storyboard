@@ -62,10 +62,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="deletePins" destination="4Ne-Xf-7fR" id="gSd-k5-thx"/>
+                        <outlet property="longPressGestureRecognizer" destination="8zY-X1-NQ2" id="6Nx-oS-fUJ"/>
                         <outlet property="mapView" destination="iWN-e5-kox" id="ftL-is-gid"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9o-Ev-JdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8zY-X1-NQ2"/>
             </objects>
             <point key="canvasLocation" x="864.79999999999995" y="-559.07046476761627"/>
         </scene>

@@ -17,6 +17,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var editButton: UIBarButtonItem!
     @IBOutlet var deletePins: UILabel!
+    @IBOutlet var longPressGestureRecognizer: UILongPressGestureRecognizer!
     
     
     //Set Up Core Data
@@ -36,7 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         labelBottom.constant = -deletePins.bounds.height
         mapView.addGestureRecognizer(longPressGestureRecognizer)
-        longPressGestureRecognizer.addTarget(self, action: "longPressed:")
+        longPressGestureRecognizer.addTarget(self, action: #selector(MapViewController.longPressed(_:)))
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         

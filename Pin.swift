@@ -13,9 +13,13 @@ import MapKit
 
 class Pin: NSManagedObject {
     
+    //Pin Management
+    
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
     @NSManaged var pictures: [Photo]
+    
+    //Keys
     
     struct Keys {
         
@@ -29,6 +33,8 @@ class Pin: NSManagedObject {
         
         super.init(entity: entity, insertInto: context)
     }
+    
+    //Save
     
     init(dictionary: [String:AnyObject], context: NSManagedObjectContext) {
         

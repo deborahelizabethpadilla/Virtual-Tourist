@@ -18,7 +18,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet var newCollectionOutlet: UICollectionView!
     @IBOutlet var noPhoto: UILabel!
     @IBOutlet var trash: UIBarButtonItem!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var activityIndicator: UICollectionView!
     
     //Variables
     

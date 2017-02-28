@@ -18,7 +18,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var editButton: UIBarButtonItem!
     @IBOutlet var deletePins: UILabel!
     @IBOutlet var longPressGestureRecognizer: UILongPressGestureRecognizer!
-    
+    @IBOutlet weak var labelBottom: NSLayoutConstraint!
+    @IBOutlet weak var labelHeight: NSLayoutConstraint!
     
     //Set Up Core Data
     
@@ -82,7 +83,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(MapViewController.toggleEdit(_:)))
             deletePins.isEnabled = false
             UIView.animate(withDuration: 0.3, animations: {
-                self.labelBottom.constant = -self.tapToDeleteLabel.bounds.height
+                self.labelBottom.constant = -self.deletePins.bounds.height
                 self.deletePins.layoutIfNeeded()
             })
         }
@@ -177,6 +178,7 @@ extension MKMapView {
     func addPinAnnotationToCoordinate(_ location: CLLocationCoordinate2D) -> PinAnnotation {
         
         let pin = Pin(entity: ["latitude" : Double(location.latitude) as AnyObject, "longitude" : Double(location.longitude) as AnyObject], insertInto: (UIApplication.shared.delegate as! AppDelegate).managedObjectContext)
+        
         let annotation = PinAnnotation(pin: pin)
         annotation.coordinate = location
         addAnnotation(annotation)

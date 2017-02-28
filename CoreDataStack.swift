@@ -9,6 +9,8 @@
 import Foundation
 import CoreData
 
+    //Core Data Stack Info
+
 private let SQLITE_FILE_NAME = "VirtualTourist.sqlite"
 
 class CoreDataStack {

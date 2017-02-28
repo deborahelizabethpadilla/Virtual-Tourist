@@ -108,7 +108,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="DWA-c2-SIZ">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="DWA-c2-SIZ" customClass="CollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="94" height="89"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -118,6 +118,10 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O1m-r3-f87">
                                                     <rect key="frame" x="0.0" y="0.0" width="94" height="89"/>
                                                 </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="P08-Js-2In">
+                                                    <rect key="frame" x="37" y="34" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -126,6 +130,10 @@
                                             <constraint firstAttribute="bottom" secondItem="O1m-r3-f87" secondAttribute="bottom" id="7gy-Ar-QFx"/>
                                             <constraint firstItem="O1m-r3-f87" firstAttribute="leading" secondItem="DWA-c2-SIZ" secondAttribute="leading" id="ony-sE-m94"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="P08-Js-2In" id="1c1-vR-FFC"/>
+                                            <outlet property="imageView" destination="O1m-r3-f87" id="4OH-hy-dh6"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>

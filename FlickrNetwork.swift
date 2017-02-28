@@ -18,18 +18,23 @@ class FlickrNetwork: NSObject {
     fileprivate override init() {}
     
     func taskForURLsWithParameters(_ parameters: [String:String], completionHandler: @escaping (_ urls: [URL]?, _ error: NSError?) -> Void) -> URLSessionTask {
+        
         let urlString = APIConstants.baseURL + "?" + escapedParameters(parameters)
         let url = URL(string: urlString)!
         let request = URLRequest(url: url)
         let session = URLSession.shared
         let task = session.dataTask(with: request, completionHandler: { data, response, error in
             if let error = error {
+                
                 completionHandler(nil, error as NSError)
+                
             } else {
+                
                 let json = (try! JSONSerialization.jsonObject(with: data!, options: .allowFragments)) as! NSDictionary
                 
                 if let results = json["photos"] as? [String:AnyObject],
                     let photos = results["photo"] as? [[String:AnyObject]] {
+                    
                     let total = Int((results["total"] as! String))!
                     var slice = photos
                     slice.shuffle()
@@ -39,12 +44,16 @@ class FlickrNetwork: NSObject {
                         let urlString = photo[APIConstants.urlExtra] as! String
                         return URL(string: urlString)!
                     }
+                    
                     completionHandler(urls, nil)
+                    
                 } else {
+                    
                     completionHandler(nil, nil)
                 }
             }
         })
+        
         task.resume()
         return task
     }
@@ -67,23 +76,29 @@ class FlickrNetwork: NSObject {
     }
     
     func downloadImageURL(_ url: URL, toPath path: String, completionHandler: @escaping (_ success: Bool, _ error: NSError?)->Void) {
+        
         let request = URLRequest(url: url)
         let task = URLSession.shared.downloadTask(with: request, completionHandler: { url, response, error in
             if let error = error {
                 completionHandler(false, error as NSError)
+                
             } else {
+                
                 let data = try! Data(contentsOf: url!)
                 try? data.write(to: URL(fileURLWithPath: path), options: [.atomic])
                 completionHandler(true, nil)
             }
         })
+        
         task.resume()
     }
     
     func escapedParameters(_ dictionary: [String:String]) -> String {
+        
         let queryItems = dictionary.map {
             URLQueryItem(name: $0, value: $1)
         }
+        
         var comps = URLComponents()
         comps.queryItems = queryItems
         return comps.percentEncodedQuery ?? ""
@@ -91,6 +106,7 @@ class FlickrNetwork: NSObject {
 }
 
 struct APIConstants {
+    
     static let apiKey = "2a2ad0534c538cea62c640e0d2520400"
     static let baseURL = "https://api.flickr.com/services/rest/"
     static let urlExtra = "url_m"
@@ -98,6 +114,7 @@ struct APIConstants {
 }
 
 struct SearchMethod {
+    
     static let searchPhotos = "flickr.photos.search"
     static let maxReturnedPhotos = 500
     static let perPage = 500
@@ -105,6 +122,7 @@ struct SearchMethod {
 }
 
 extension Array {
+    
     mutating func shuffle() {
         if count < 2 { return }
         for i in 0..<(count - 1) {

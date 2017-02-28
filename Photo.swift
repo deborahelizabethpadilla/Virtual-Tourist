@@ -53,6 +53,7 @@ class Photo: NSManagedObject {
         let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
         
         let fullPath = docPath + imagePath
+        
         do {
             
             try FileManager.default.removeItem(atPath: fullPath)

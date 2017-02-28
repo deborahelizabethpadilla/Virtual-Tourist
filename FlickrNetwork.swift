@@ -30,7 +30,7 @@ class FlickrNetwork: NSObject {
     }
     
     lazy var sharedContext: NSManagedObjectContext = {
-        return CoreDataStack.sharedInstance().managedObjectContext!
+        return CoreDataStack.sharedInstance().managedObjectContext
     }()
     
     //Get Location Of Pin

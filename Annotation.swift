@@ -10,9 +10,11 @@ import UIKit
 import MapKit
 
 class PinAnnotation: MKPointAnnotation {
+    
     let pin: Pin
     
     init(pin: Pin) {
+        
         self.pin = pin
     }
 }

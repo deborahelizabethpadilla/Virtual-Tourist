@@ -12,7 +12,10 @@ import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
+    //Outlets
+    
     @IBOutlet var mapView: MKMapView!
+    @IBOutlet var editButton: UIBarButtonItem!
     
     let locationManager = CLLocationManager()
     
@@ -40,9 +43,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         self.mapView.userTrackingMode = .follow
         
+        //Add Pin To Map
+        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation(gesture:)))
         longPressGesture.minimumPressDuration = 1.0
         self.mapView.addGestureRecognizer(longPressGesture)
+    
         
     }
     

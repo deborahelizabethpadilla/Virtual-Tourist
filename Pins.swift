@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import MapKit
 
-@objc(Pin)
+
 
 class Pins: NSManagedObject, MKAnnotation {
     

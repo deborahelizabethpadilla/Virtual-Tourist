@@ -56,7 +56,11 @@
                                 </constraints>
                                 <items>
                                     <navigationItem id="dCU-1b-6Qu">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="JXG-Sy-SgT"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="JXG-Sy-SgT">
+                                            <connections>
+                                                <action selector="editAction:" destination="nhS-YZ-yeT" id="Scy-Mc-9Uj"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -75,6 +79,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="cAB-ZU-hpb"/>
                     <connections>
+                        <outlet property="editButton" destination="JXG-Sy-SgT" id="Voi-rv-3yZ"/>
                         <outlet property="mapView" destination="ROk-pB-814" id="22h-sC-tv5"/>
                     </connections>
                 </viewController>

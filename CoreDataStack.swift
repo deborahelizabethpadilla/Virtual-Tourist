@@ -35,7 +35,7 @@ class CoreDataStack {
         return urls[urls.count-1]
     }()
     
-    // MARK: Simplified Core data stack
+    //Core Data Stack Info
     
     lazy var managedObjectContext: NSManagedObjectContext = {
         
@@ -52,7 +52,6 @@ class CoreDataStack {
             try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         } catch {
             
-            // Report any error we got.
             var dict = [String: AnyObject]()
             
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject
@@ -71,12 +70,11 @@ class CoreDataStack {
         return managedObjectContext
     }()
     
-    // MARK: Core Data Saving support
+    //Core Data Save
     
     func saveContext () throws {
         if managedObjectContext.hasChanges {
             
-            // every one that call this function need to handle the error
             try managedObjectContext.save()
         }
     }

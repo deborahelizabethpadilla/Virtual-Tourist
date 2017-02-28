@@ -22,6 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Set Up Core Data
     
     var editingEnabled = false
+    
     var tempPinAnnotation: PinAnnotation?
     
     override func viewDidLoad() {
@@ -38,15 +39,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         longPressGestureRecognizer.addTarget(self, action: "longPressed:")
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        
         let pins = (try! sharedContext().fetch(request)) as! [Pin]
+        
         for pin in pins {
+            
             let pinAnnotation = PinAnnotation(pin: pin)
+            
             pinAnnotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
+            
             mapView.addAnnotation(pinAnnotation)
         }
     }
     
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         
     }
@@ -54,15 +61,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Edit
     
     override func setEditing(_ editing: Bool, animated: Bool) {
+        
         super.setEditing(editing, animated: animated)
+        
         if editing {
+            
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(MapViewController.toggleEdit(_:)))
+            
             deletePins.isEnabled = true
+            
             UIView.animate(withDuration: 0.3, animations: {
+                
                 self.labelBottom.constant = 0
                 self.deletePins.layoutIfNeeded()
+                
             })
         } else {
+            
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(MapViewController.toggleEdit(_:)))
             deletePins.isEnabled = false
             UIView.animate(withDuration: 0.3, animations: {
@@ -75,6 +90,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Edit
     
     @IBAction func toggleEdit(_ sender: AnyObject) {
+        
         if self.isEditing {
             self.setEditing(false, animated: true)
         } else {
@@ -85,8 +101,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Long Press Gesture Recognizer
     
     func longPressed(_ sender: UILongPressGestureRecognizer) {
+        
         let point = sender.location(in: sender.view)
+        
         switch sender.state {
+            
         case .began:
             tempPinAnnotation = mapView.addPinAnnotationAtPoint(point)
         case .changed:
@@ -102,6 +121,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Map View Annotation
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
         let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
         view.animatesDrop = true
         return view
@@ -110,6 +130,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Map View Select View
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
         mapView.deselectAnnotation(view.annotation, animated: true)
         let annotation = view.annotation as! PinAnnotation
         if isEditing {
@@ -124,9 +145,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Segue To Photos VC
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let id = segue.identifier!
         
         switch id {
+            
         case "PhotosForPin":
             let pinAnnotation = sender as! PinAnnotation
             let destination = segue.destination as! PhotosViewController
@@ -142,6 +165,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
 extension MKMapView {
     func addPinAnnotationAtPoint(_ point: CGPoint) -> PinAnnotation {
+        
         let coordinate = self.convert(point, toCoordinateFrom: self)
         let pinAnnotation = addPinAnnotationToCoordinate(coordinate)
         return pinAnnotation
@@ -150,6 +174,7 @@ extension MKMapView {
     //Add Pin To Coordinate
     
     func addPinAnnotationToCoordinate(_ location: CLLocationCoordinate2D) -> PinAnnotation {
+        
         let pin = Pin(entity: ["latitude" : Double(location.latitude) as AnyObject, "longitude" : Double(location.longitude) as AnyObject], insertInto: (UIApplication.shared.delegate as! AppDelegate).managedObjectContext)
         let annotation = PinAnnotation(pin: pin)
         annotation.coordinate = location

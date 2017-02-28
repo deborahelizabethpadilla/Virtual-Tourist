@@ -10,91 +10,102 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class PhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    //Outlets 
     
     @IBOutlet var mapView: MKMapView!
-    @IBOutlet var newCollectionButton: UIBarButtonItem!
-    @IBOutlet var collectionViewOutlet: UICollectionView!
-    @IBOutlet var noPhotos: UILabel!
+    @IBOutlet var newCollectionOutlet: UICollectionView!
+    @IBOutlet var noPhoto: UILabel!
+    @IBOutlet var trash: UIBarButtonItem!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    @IBAction func newCollectionAction(_ sender: Any) {
-        
-        //Download New Photos From Flickr
-        
-        fetchedResults = nil
-        deletePhotosForPin()
-        loadPicturesFromFlickr()
+    //Variables
+    
+    let spacing: CGFloat = 6.0
+    let columns = 3
+    var pinAnnotation: PinAnnotation?
+    var photos: [Photo]?
+    var photoStatus = PhotosStatus.incomplete
+    
+    enum PhotosStatus {
+        case incomplete
+        case done
     }
-    
-    //Variables For Map
-    
-    var lat: Double!
-    var lon: Double!
-    var imageView: UIImageView!
-    var startAnimate = 0
-    var stopAnimate = 0
-    var loadingComplete = false
-    var pin: Pins!
-    
-    var Pins = [NSManagedObject]()
-    
-    var fetchedResults: NSFetchedResultsController<NSFetchRequestResult>!
-    
-    let reuseIdentifier = "photoCell"
-    
-    let fileManager = FileManager.default
-    
-    lazy var sharedContext: NSManagedObjectContext = {
-        
-        return CoreDataStack.sharedInstance().managedObjectContext
-        
-    }()
-    
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setMapToPin()
+        //Collection View Setup
         
-        newCollectionButton.isEnabled = false
+        newCollectionOutlet.dataSource = self
+        newCollectionOutlet.delegate = self
+        newCollectionOutlet.allowsMultipleSelection = true
         
-        collectionViewOutlet.register(UINib(nibName: "CollectionCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
-        collectionViewOutlet.delegate = self as UICollectionViewDelegate
-        collectionViewOutlet.dataSource = self as? UICollectionViewDataSource
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PhotosViewController.tappedCell(_:)))
-        self.collectionViewOutlet.addGestureRecognizer(tapRecognizer)
+        //Annotation
         
-        fetchedResultsController = getFetchedResultsController()
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Error fetching photos for pin: \(error)")
+        if let pinAnnotation = pinAnnotation {
+            let region = MKCoordinateRegionMake(pinAnnotation.coordinate, MKCoordinateSpanMake(0.4, 0.4))
+            mapView.setRegion(region, animated: true)
+            mapView.addAnnotation(pinAnnotation)
+            photos = pinAnnotation.pin.pictures
+            if photos!.count == 0 {
+                photoStatus = .incomplete
+                activityIndicator.startAnimating()
+                activityIndicator.isHidden = false
+                retrieveURLsForPinAnnotation(pinAnnotation)
+            } else {
+                photoStatus = .done
+                activityIndicator.stopAnimating()
+                activityIndicator.isHidden = true
+                newCollectionOutlet.reloadData()
+            }
         }
-        
-        if fetchedResultsController.fetchedObjects?.count == 0 {
-            
-            loadPicturesFromFlickr()
-            
-        } else {
-            
-            DispatchQueue.main.async(execute: {
-                
-                self.collectionViewOutlet.reloadData()
-                
-                self.newCollectionButton.isEnabled = true
-                
-            })
-        }
-        
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        fetchedResultsController = nil
-        super.viewDidDisappear(animated)
-        
+    //Get Flickr For Pins
+    
+    func retrieveURLsForPinAnnotation(_ pinAnnotation: PinAnnotation) {
+        FlickrNetwork.sharedClient.taskForURLsWithPinAnnotation(pinAnnotation) { urls, error in
+            if error != nil {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Could not retrieve photos", message: "Photos cannot be retrieved at this time", preferredStyle: UIAlertControllerStyle.alert)
+                    self.present(alert, animated: true, completion: nil)
+                    self.photoStatus = .done
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                    self.newCollectionOutlet.reloadData()
+                }
+            } else {
+                for (_, url) in (urls!).enumerated() {
+                    let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
+                    let path = "/" + pinAnnotation.pin.latitude.description.replacingOccurrences(of: ".", with: "_", options: .literal, range: nil) + "-" + pinAnnotation.pin.longitude.description.replacingOccurrences(of: ".", with: "_", options: .literal, range: nil) + "-" + url.lastPathComponent
+                    let dict = ["imagePath" : path, "pin" : pinAnnotation.pin] as [String : Any]
+                    let photo = Photo(dictionary: dict as [String : AnyObject], context: sharedContext())
+                    FlickrNetwork.sharedClient.downloadImageURL(url, toPath: (docPath + path)) { success, error in
+                        DispatchQueue.main.async {
+                            if error != nil {
+                                sharedContext().delete(photo)
+                                do {
+                                    try sharedContext().save()
+                                } catch _ {
+                                }
+                            } else {
+                                self.newCollectionOutlet.reloadData()
+                            }
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    
+                    self.photoStatus = .done
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                    self.newCollectionOutlet.reloadData()
+                }
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,237 +113,115 @@ class PhotosViewController: UIViewController, NSFetchedResultsControllerDelegate
         
     }
     
-    //How Many Returned
+    //Number Of Sections
+    
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    //Collection View Number Of Items
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if let count = fetchedResultsController.fetchedObjects?.count {
-            
-            return count
-            
-        } else {
-            
+        switch photoStatus {
+        case .incomplete:
+            noPhoto.isHidden = true
             return 0
+        case .done:
+            let photos = pinAnnotation?.pin.pictures
+            if let cellCount = photos?.count, cellCount > 0 {
+                noPhoto.isHidden = true
+                return cellCount
+            } else {
+                noPhoto.isHidden = false
+                return 0
+            }
         }
     }
     
-    //Cell With Image
+    //Collection View Cell For Item
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewCell
-        
-        cell.activityIndicator.isHidden = false
-        cell.activityIndicator.startAnimating()
-        
-        cell.imageView.image = UIImage(named: "collectionImage")
-        
-        guard (fetchedResultsController.fetchedObjects?.count != 0) else {
-            return cell
-        }
-        
-        let p = fetchedResultsController.object(at: indexPath) as! Photos
-        
-        var imageData: Data?
-        
-        let photoPath = documentsDirectory.appendingPathComponent(p.path)
-        if fileManager.fileExists(atPath: photoPath) {
-            imageData  = try! Data(contentsOf: URL(fileURLWithPath: photoPath))
-            DispatchQueue.main.async(execute: {
-                
-                cell.imageView.image = UIImage(data: imageData!)
-                
-                cell.activityIndicator.stopAnimating()
-            })
-            
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! CollectionViewCell
+        let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
+        let imagePath = pinAnnotation?.pin.pictures[indexPath.row].imagePath
+        if let imagePath = imagePath,
+            let image = UIImage(contentsOfFile: (docPath + imagePath)) {
+            cell.activityIndicator.stopAnimating()
+            cell.activityIndicator.isHidden = true
+            cell.imageView.image = image
         } else {
-            
-            if let photoUrl = p.url {
-                FlickrNetwork.sharedInstance().getPhotoFromUrl(photoUrl) { data, error in
-                    
-                    if data != nil {
-                        
-                        imageData = data
-                        DispatchQueue.main.async(execute: {
-                            
-                            cell.imageView.image = UIImage(data: imageData!)
-                            cell.activityIndicator.stopAnimating()
-                        })
-                        
-                    } else {
-                        
-                        DispatchQueue.main.async(execute: {
-                            cell.activityIndicator.stopAnimating()
-                        })
-                    }
-                }
-            }
+            cell.activityIndicator.startAnimating()
+            cell.activityIndicator.isHidden = false
+            cell.imageView.image = nil
         }
-        
         return cell
-        
     }
     
-    //Delete Photo When Tapped
-    
-    func tappedCell(_ gestureRecognizer: UITapGestureRecognizer) {
-        
-        let tappedPoint: CGPoint = gestureRecognizer.location(in: collectionViewOutlet)
-        if let tappedCellPath: IndexPath = collectionViewOutlet.indexPathForItem(at: tappedPoint) {
-            let photo = fetchedResultsController.object(at: tappedCellPath) as! Photos
-            sharedContext.delete(photo)
-            do {
-                try sharedContext.save()
-            } catch let error as NSError {
-                print("Error deleting photo: \(error)")
-            }
-        }
-    }
-    
-    //Fetching Photos Within Pin
-    
-    func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
-        
-        let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        fetchRequest.predicate = NSPredicate(format: "photo_pin == %@", self.pin)
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: sharedContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
-        return fetchedResultsController
-    }
-    
-    //Delete Photos Within Pin
-    
-    func deletePhotosForPin() {
-        
-        if pin.pin_photo.count > 0 {
-            
-            for photo in pin.pin_photo {
-                
-                sharedContext.delete(photo as! Photos)
-            }
-            
-            do {
-                
-                try sharedContext.save()
-                
-            } catch let error as NSError {
-                
-                print("Error clearing photos from Pin: \(error)")
-            }
-        }
-    }
-    
-    //Get Photos From Flickr Within Location
-    
-    func loadPicturesFromFlickr() {
-        
-        newCollectionButton.isEnabled = false
-        DispatchQueue.main.async(execute: {
-            
-            self.noPhotos.isHidden = true
-        })
-        
-        fetchedResultsController = getFetchedResultsController()
-        
-        FlickrNetwork.sharedInstance().getPhotosForPin(pin) { hasPhotos, error in
-            guard (error == nil) else {
-                
-                print("getPhotosForPin returned an error: \(String(describing: error))")
-                return
-            }
-            
-            if hasPhotos {
-                
-                do {
-                    
-                    
-                    try self.fetchedResultsController.performFetch()
-                    
-                    DispatchQueue.main.async(execute: {
-                        
-                        self.collectionViewOutlet.reloadData()
-                        
-                        self.newCollectionButton.isEnabled = true
-                        
-                    })
-                    
-                } catch let error as NSError {
-                    
-                    print("Error fetching photos for pin: \(error)")
-                }
-            } else {
-                
-                DispatchQueue.main.async(execute: {
-                    
-                    self.noPhotos.isHidden = false
-                })
-                
-            }
-        }
-    }
-    
-    //Set Pins On Map
-    
-    func setMapToPin() {
-        
-        let location = CLLocationCoordinate2DMake(pin.latitude as! Double, pin.longitude as! Double)
-        let span = MKCoordinateSpanMake(FlickrNetwork.Constants.LatitudeDelta, FlickrNetwork.Constants.LongitudeDelta)
-        let region = MKCoordinateRegionMake(location, span)
-        DispatchQueue.main.async(execute: {
-            self.mapView.addAnnotation(self.pin)
-            self.mapView.setRegion(region, animated: true)
-        })
-    }
-    
-}
-
-
-//Design Cells In Collection View
-
-extension PhotosViewController: UICollectionViewDelegateFlowLayout {
+    //Collection View Size Item
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let picDimension = self.view.frame.size.width / 4.0
-        
-        return CGSize(width: picDimension, height: picDimension)
+        let spaces = CGFloat(2 * columns)
+        let width = (collectionView.bounds.width - (spacing * spaces)) / CGFloat(columns)
+        return CGSize(width: width, height: width)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        let leftRightInset = self.view.frame.size.width / 14.0
-        
-        return UIEdgeInsetsMake(0, leftRightInset, 0, leftRightInset)
-    }
-}
-
-
-extension PhotosViewController {
+    //Collection View Spacing
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
-        switch type {
-            
-        case .insert:
-            break
-        case .delete:
-            
-            collectionViewOutlet.deleteItems(at: [indexPath!])
-            
-            DispatchQueue.main.async(execute: {
-                
-                self.collectionViewOutlet.reloadData()
-            })
-            
-        case .update:
-            break
-            
-        case .move:
-            break
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+    
+    //Collection View Select Item
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+        cell.alpha = 0.4
+        trash.isEnabled = true
+    }
+    
+    //Collection View Deselect Item
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+        cell.alpha = 1.0
+        if collectionView.indexPathsForSelectedItems != nil {
+            trash.isEnabled = false
         }
     }
+    
+    //Refresh Photos
+    
+    @IBAction func refresh(_ sender: UIBarButtonItem) {
+        photoStatus = .incomplete
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+        if let indexPaths = newCollectionOutlet.indexPathsForSelectedItems {
+            for index in indexPaths {
+                newCollectionOutlet.deselectItem(at: index, animated: true)
+                collectionView(newCollectionOutlet, didDeselectItemAt: index)
+            }
+        }
+        for photo in pinAnnotation!.pin.pictures {
+            sharedContext().delete(photo)
+        }
+        newCollectionOutlet.reloadData()
+        retrieveURLsForPinAnnotation(pinAnnotation!)
+    }
+    
+    //Delete Photos
+    
+    @IBAction func deleteSelectedPhotos(_ sender: UIBarButtonItem) {
+        while let index = newCollectionOutlet.indexPathsForSelectedItems?.first {
+            let row = index.row
+            let photo = pinAnnotation?.pin.pictures[row]
+            context().delete(photo!)
+            do {
+                try context().save()
+            } catch _ {
+            }
+            newCollectionOutlet.deleteItems(at: [index])
+        }
+    }
+    
 }

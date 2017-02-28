@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 import MapKit
 
+@objc(Pin)
+
 class Pins: NSManagedObject, MKAnnotation {
     
     @NSManaged var latitude: NSNumber
@@ -19,12 +21,11 @@ class Pins: NSManagedObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D {
         
-        get {
-            
-            return CLLocationCoordinate2DMake(Double(latitude), Double(longitude)) 
-            
-        }
+       return CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
     }
+    
+    var title: String? = nil
+    var subtitle: String? = nil
     
     override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         
@@ -33,13 +34,18 @@ class Pins: NSManagedObject, MKAnnotation {
     
     init(latitude: Double, longitude: Double, photos: NSSet, context: NSManagedObjectContext) {
         
-        let entity = NSEntityDescription.entity(forEntityName: "Pins", in: context)!
+        let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context)!
         
         super.init(entity: entity, insertInto: context)
         
         self.latitude = latitude as NSNumber
         self.longitude = longitude as NSNumber
         pin_photo = photos
+    }
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStack.sharedInstance().managedObjectContext
+        
     }
     
 }

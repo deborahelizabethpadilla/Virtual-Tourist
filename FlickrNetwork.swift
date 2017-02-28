@@ -11,11 +11,15 @@ import UIKit
 
 class FlickrNetwork: NSObject {
     
+    //Main Functions
+    
     static let sharedClient = FlickrNetwork()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
     
     fileprivate override init() {}
+    
+    //Task From Flickr
     
     func taskForURLsWithParameters(_ parameters: [String:String], completionHandler: @escaping (_ urls: [URL]?, _ error: NSError?) -> Void) -> URLSessionTask {
         
@@ -58,6 +62,8 @@ class FlickrNetwork: NSObject {
         return task
     }
     
+    //Download From Flick To Pin
+    
     func taskForURLsWithPinAnnotation(_ pinAnnotation: PinAnnotation, completionHandler: @escaping (_ urls: [URL]?, _ error: NSError?) -> Void) -> URLSessionTask {
         
         let params = [
@@ -74,6 +80,8 @@ class FlickrNetwork: NSObject {
         
         return taskForURLsWithParameters(params, completionHandler: completionHandler)
     }
+    
+    //Download Image From Flickr
     
     func downloadImageURL(_ url: URL, toPath path: String, completionHandler: @escaping (_ success: Bool, _ error: NSError?)->Void) {
         
@@ -93,6 +101,8 @@ class FlickrNetwork: NSObject {
         task.resume()
     }
     
+    //Parameters
+    
     func escapedParameters(_ dictionary: [String:String]) -> String {
         
         let queryItems = dictionary.map {
@@ -105,6 +115,8 @@ class FlickrNetwork: NSObject {
     }
 }
 
+    //Constants For Flickr
+
 struct APIConstants {
     
     static let apiKey = "2a2ad0534c538cea62c640e0d2520400"
@@ -113,6 +125,8 @@ struct APIConstants {
     static let jsonFormat = "json"
 }
 
+    //Search
+
 struct SearchMethod {
     
     static let searchPhotos = "flickr.photos.search"
@@ -120,6 +134,8 @@ struct SearchMethod {
     static let perPage = 500
     
 }
+
+    //Array
 
 extension Array {
     

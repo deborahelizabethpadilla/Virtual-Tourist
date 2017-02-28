@@ -17,8 +17,12 @@ import CoreData
 
 class Photo: NSManagedObject {
     
+    //Photo For Annotation
+    
     @NSManaged var imagePath: String
     @NSManaged var pin: Pin?
+    
+    //Keys 
     
     struct Keys {
         
@@ -47,6 +51,8 @@ class Photo: NSManagedObject {
             
         }
     }
+    
+    //Delete Annotation
     
     override func prepareForDeletion() {
         

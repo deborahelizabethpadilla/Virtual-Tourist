@@ -11,6 +11,8 @@ import MapKit
 
 class PinAnnotation: MKPointAnnotation {
     
+    //Pin Annotation
+    
     let pin: Pin
     
     init(pin: Pin) {

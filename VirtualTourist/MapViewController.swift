@@ -19,7 +19,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //Set Up Core Data
     
     var context: NSManagedObjectContext = {
-        return CoreDataStack.sharedInstance().managedObjectContext!
+        return CoreDataStack.sharedInstance().managedObjectContext
     }()
     
     override func viewDidLoad() {

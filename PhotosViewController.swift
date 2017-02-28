@@ -20,7 +20,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet var trash: UIBarButtonItem!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    //Variables
+    //Variables - Enum
     
     let spacing: CGFloat = 6.0
     let columns = 3

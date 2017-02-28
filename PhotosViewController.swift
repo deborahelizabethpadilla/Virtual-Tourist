@@ -12,7 +12,7 @@ import CoreData
 
 class PhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    //Outlets 
+    //Outlets
     
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var newCollectionOutlet: UICollectionView!
@@ -215,9 +215,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         while let index = newCollectionOutlet.indexPathsForSelectedItems?.first {
             let row = index.row
             let photo = pinAnnotation?.pin.pictures[row]
-            context().delete(photo!)
+            sharedContext().delete(photo!)
             do {
-                try context().save()
+                try sharedContext().save()
             } catch _ {
             }
             newCollectionOutlet.deleteItems(at: [index])

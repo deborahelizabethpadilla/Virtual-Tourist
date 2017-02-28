@@ -31,14 +31,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.delegate = self
         
-        //Long Gesture Press Recognizer
+        //Long Gesture Press Recognizer For Pins
         
         labelBottom.constant = -deletePins.bounds.height
         mapView.addGestureRecognizer(longPressGestureRecognizer)
         longPressGestureRecognizer.addTarget(self, action: "longPressed:")
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-        let pins = (try! context().fetch(request)) as! [Pin]
+        let pins = (try! sharedContext().fetch(request)) as! [Pin]
         for pin in pins {
             let pinAnnotation = PinAnnotation(pin: pin)
             pinAnnotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
@@ -115,7 +115,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if isEditing {
             mapView.removeAnnotation(annotation)
             let pin = annotation.pin
-            context().delete(pin)
+            sharedContext().delete(pin)
         } else {
             performSegue(withIdentifier: "PinPhotos", sender: annotation)
         }

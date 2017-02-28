@@ -10,6 +10,8 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
+    //Collection View Cell Outlets
+    
     @IBOutlet var imageView: UIImageView!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!

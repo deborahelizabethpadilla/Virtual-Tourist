@@ -84,7 +84,7 @@
                         <outlet property="labelHeight" destination="Xf0-jd-iJA" id="pgF-fO-RfF"/>
                         <outlet property="longPressGestureRecognizer" destination="8zY-X1-NQ2" id="6Nx-oS-fUJ"/>
                         <outlet property="mapView" destination="iWN-e5-kox" id="ftL-is-gid"/>
-                        <segue destination="9cO-6T-mJ3" kind="show" id="Ki6-Ma-dDh"/>
+                        <segue destination="9cO-6T-mJ3" kind="show" identifier="PinPhotos" id="Ki6-Ma-dDh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9o-Ev-JdR" userLabel="First Responder" sceneMemberID="firstResponder"/>

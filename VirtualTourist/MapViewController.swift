@@ -177,9 +177,16 @@ extension MKMapView {
     
     func addPinAnnotationToCoordinate(_ location: CLLocationCoordinate2D) -> PinAnnotation {
         
-        let pin = Pin(entity: ["latitude" : Double(location.latitude) as AnyObject, "longitude" : Double(location.longitude) as AnyObject], insertInto: (UIApplication.shared.delegate as! AppDelegate).managedObjectContext)
+        let pin = Pin(dictionary: ["latitude" : Double(location.latitude) as AnyObject, "longitude" : Double(location.longitude) as AnyObject], context: (UIApplication.shared.delegate as! AppDelegate).managedObjectContext)
         
         let annotation = PinAnnotation(pin: pin)
+        
+        annotation.coordinate = location
+        
+        addAnnotation(annotation)
+        
+        return annotation
+        
         annotation.coordinate = location
         addAnnotation(annotation)
         return annotation

@@ -42,6 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         let pins = (try! sharedContext().fetch(request)) as! [Pin]
         for pin in pins {
+            
             let pinAnnotation = PinAnnotation(pin: pin)
             pinAnnotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
             mapView.addAnnotation(pinAnnotation)

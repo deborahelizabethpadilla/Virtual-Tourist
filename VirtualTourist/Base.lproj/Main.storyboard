@@ -105,13 +105,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IwO-fC-ubg">
-                                <rect key="frame" x="0.0" y="64" width="375" height="170"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="170"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="170" id="4LU-Oe-zt7"/>
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kzM-7n-Cgo">
-                                <rect key="frame" x="0.0" y="242" width="375" height="381"/>
+                                <rect key="frame" x="0.0" y="286" width="375" height="337"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3h1-Xc-hbP">
                                     <size key="itemSize" width="94" height="89"/>
@@ -181,25 +181,21 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5">
-                            <connections>
-                                <action selector="refresh:" destination="9cO-6T-mJ3" id="NYH-Fu-Y7K"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="6fF-s5-gZg"/>
                         <barButtonItem systemItem="trash" id="ew3-MR-zRn">
                             <connections>
-                                <action selector="deleteSelectedPhotos:" destination="9cO-6T-mJ3" id="gsI-YW-IN8"/>
+                                <action selector="deleteSelectedPhotos:" destination="9cO-6T-mJ3" id="YDe-DY-mdJ"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="VEs-ki-sq8" id="auQ-xK-14U"/>
-                        <outlet property="mapView" destination="IwO-fC-ubg" id="TSN-2R-CTS"/>
-                        <outlet property="newCollectionOutlet" destination="kzM-7n-Cgo" id="3Iv-aY-Nyd"/>
-                        <outlet property="noPhoto" destination="76H-B4-x5j" id="PBW-1M-Zyf"/>
-                        <outlet property="trash" destination="ew3-MR-zRn" id="mab-2R-ATw"/>
+                        <outlet property="activityIndicator" destination="VEs-ki-sq8" id="Fao-9j-aM9"/>
+                        <outlet property="mapView" destination="IwO-fC-ubg" id="Fwp-t2-Cze"/>
+                        <outlet property="newCollectionOutlet" destination="kzM-7n-Cgo" id="oJ5-bu-DyF"/>
+                        <outlet property="noPhoto" destination="76H-B4-x5j" id="wvU-oS-Xqe"/>
+                        <outlet property="trash" destination="ew3-MR-zRn" id="LlG-PP-VPE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>

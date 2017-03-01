@@ -30,7 +30,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Delegate
+        //Delegate, Long Press & Annotation Request
         
         mapView.delegate = self
         

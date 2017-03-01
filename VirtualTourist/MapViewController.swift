@@ -73,6 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.deletePins.layoutIfNeeded()
                 
             })
+            
         } else {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(MapViewController.toggleEdit(_:)))

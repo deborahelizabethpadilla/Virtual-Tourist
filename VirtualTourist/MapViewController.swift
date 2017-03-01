@@ -49,12 +49,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
-        
-    }
-    
     //Edit
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -148,7 +142,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         switch id {
             
-        case "PhotosForPin":
+        case "PinPhotos":
             let pinAnnotation = sender as! PinAnnotation
             let destination = segue.destination as! PhotosViewController
             destination.pinAnnotation = pinAnnotation

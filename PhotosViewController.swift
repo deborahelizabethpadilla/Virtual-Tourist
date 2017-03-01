@@ -131,12 +131,6 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
-        
-    }
-    
     //Number Of Sections
     
     

@@ -35,6 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         labelBottom.constant = -deletePins.bounds.height
+        
         mapView.addGestureRecognizer(longPressGestureRecognizer)
         longPressGestureRecognizer.addTarget(self, action: #selector(MapViewController.longPressed(_:)))
         

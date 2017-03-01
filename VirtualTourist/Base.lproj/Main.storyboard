@@ -46,10 +46,12 @@
                                 <rect key="frame" x="0.0" y="65" width="375" height="558"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TAP PINS TO DELETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ne-Xf-7fR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="TAP PINS TO DELETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ne-Xf-7fR">
                                 <rect key="frame" x="0.0" y="622" width="375" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="Xf0-jd-iJA"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.97290740389999997" blue="0.97382185750000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -57,6 +59,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="yms-UK-Ros" firstAttribute="top" secondItem="fem-d5-CeK" secondAttribute="top" id="5eh-5q-mTP"/>
+                            <constraint firstItem="RT9-74-VsF" firstAttribute="top" secondItem="4Ne-Xf-7fR" secondAttribute="bottom" id="PXx-tP-umC"/>
                             <constraint firstItem="RT9-74-VsF" firstAttribute="top" secondItem="yms-UK-Ros" secondAttribute="bottom" id="WFi-h5-JQH"/>
                             <constraint firstAttribute="trailing" secondItem="yms-UK-Ros" secondAttribute="trailing" id="bR9-Ia-pJ5"/>
                             <constraint firstItem="yms-UK-Ros" firstAttribute="leading" secondItem="fem-d5-CeK" secondAttribute="leading" id="xFX-FP-6rK"/>
@@ -71,6 +74,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="deletePins" destination="4Ne-Xf-7fR" id="gSd-k5-thx"/>
+                        <outlet property="editButton" destination="n5j-Ub-y5C" id="AIf-yQ-0Ri"/>
+                        <outlet property="labelBottom" destination="PXx-tP-umC" id="1Cr-2a-f7Y"/>
+                        <outlet property="labelHeight" destination="Xf0-jd-iJA" id="pgF-fO-RfF"/>
                         <outlet property="longPressGestureRecognizer" destination="8zY-X1-NQ2" id="6Nx-oS-fUJ"/>
                         <outlet property="mapView" destination="iWN-e5-kox" id="ftL-is-gid"/>
                     </connections>
@@ -78,7 +84,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9o-Ev-JdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8zY-X1-NQ2"/>
             </objects>
-            <point key="canvasLocation" x="864.5" y="-559.5"/>
+            <point key="canvasLocation" x="863.20000000000005" y="-559.97001499250382"/>
         </scene>
         <!--Photos View Controller-->
         <scene sceneID="ZPL-o9-NIa">

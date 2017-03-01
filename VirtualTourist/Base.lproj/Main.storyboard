@@ -42,11 +42,10 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yms-UK-Ros">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </stackView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iWN-e5-kox">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iWN-e5-kox">
                                 <rect key="frame" x="0.0" y="65" width="375" height="558"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="TAP PINS TO DELETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ne-Xf-7fR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP PINS TO DELETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ne-Xf-7fR">
                                 <rect key="frame" x="0.0" y="622" width="375" height="45"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -59,9 +58,15 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="yms-UK-Ros" firstAttribute="top" secondItem="fem-d5-CeK" secondAttribute="top" id="5eh-5q-mTP"/>
+                            <constraint firstItem="4Ne-Xf-7fR" firstAttribute="trailing" secondItem="yms-UK-Ros" secondAttribute="trailing" id="8FW-HE-HgM"/>
+                            <constraint firstItem="4Ne-Xf-7fR" firstAttribute="trailing" secondItem="iWN-e5-kox" secondAttribute="trailing" id="Bkj-4s-zuV"/>
+                            <constraint firstItem="RT9-74-VsF" firstAttribute="top" secondItem="iWN-e5-kox" secondAttribute="bottom" constant="44" id="CIg-1d-3kO"/>
                             <constraint firstItem="RT9-74-VsF" firstAttribute="top" secondItem="4Ne-Xf-7fR" secondAttribute="bottom" id="PXx-tP-umC"/>
+                            <constraint firstItem="4Ne-Xf-7fR" firstAttribute="leading" secondItem="iWN-e5-kox" secondAttribute="leading" id="VGY-UM-Yaz"/>
                             <constraint firstItem="RT9-74-VsF" firstAttribute="top" secondItem="yms-UK-Ros" secondAttribute="bottom" id="WFi-h5-JQH"/>
+                            <constraint firstItem="4Ne-Xf-7fR" firstAttribute="leading" secondItem="yms-UK-Ros" secondAttribute="leading" id="Zgu-wY-yYt"/>
                             <constraint firstAttribute="trailing" secondItem="yms-UK-Ros" secondAttribute="trailing" id="bR9-Ia-pJ5"/>
+                            <constraint firstItem="iWN-e5-kox" firstAttribute="top" secondItem="koo-so-uGl" secondAttribute="bottom" constant="1" id="czb-bV-3WI"/>
                             <constraint firstItem="yms-UK-Ros" firstAttribute="leading" secondItem="fem-d5-CeK" secondAttribute="leading" id="xFX-FP-6rK"/>
                         </constraints>
                     </view>

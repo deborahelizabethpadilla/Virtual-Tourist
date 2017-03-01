@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 import CoreData
 
-import Foundation
-import CoreData
-
 @objc(Photo)
 
 class Photo: NSManagedObject {

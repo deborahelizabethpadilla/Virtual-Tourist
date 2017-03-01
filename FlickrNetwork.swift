@@ -40,6 +40,11 @@ class FlickrNetwork: NSObject {
                     let photos = results["photo"] as? [[String:AnyObject]] {
                     
                     let total = Int((results["total"] as! String))!
+                    
+                    //Random Page From Total Number Of Pages
+                    
+                    
+                    
                     var slice = photos
                     slice.shuffle()
                     let max = min(21, total)
@@ -62,7 +67,7 @@ class FlickrNetwork: NSObject {
         return task
     }
     
-    //Download From Flick To Pin
+    //Download From Flickr To Pin
     
     func taskForURLsWithPinAnnotation(_ pinAnnotation: PinAnnotation, completionHandler: @escaping (_ urls: [URL]?, _ error: NSError?) -> Void) -> URLSessionTask {
         
@@ -92,9 +97,9 @@ class FlickrNetwork: NSObject {
                 
             } else {
                 
-                let data = try! Data(contentsOf: url!)
-                try? data.write(to: URL(fileURLWithPath: path), options: [.atomic])
-                completionHandler(true, nil)
+                //Store In Core Data
+                
+                
             }
         })
         
@@ -113,6 +118,8 @@ class FlickrNetwork: NSObject {
         comps.queryItems = queryItems
         return comps.percentEncodedQuery ?? ""
     }
+    
+    
 }
 
     //Constants For Flickr

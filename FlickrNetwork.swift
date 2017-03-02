@@ -8,13 +8,19 @@
 
 import Foundation
 
+    //Network
+
 class FlickrNetwork {
     
+    //Keys
+    
     private static let flickrEndpoint  = "https://api.flickr.com/services/rest/"
-    private static let flickrAPIKey    = "2a2ad0534c538cea62c640e0d2520400"
+    private static let flickrAPIKey    = "eea708b4ed3f457c9525815ac5949d2e"
     private static let flickrSearch    = "flickr.photos.search"
     private static let format          = "json"
     private static let searchRangeKM   = 1
+    
+    //Get Images
     
     static func getFlickrImages(lat: Double, lng: Double, completion: @escaping (_ success: Bool, _ flickrImages:[FlickrImage]?) -> Void) {
         let request = NSMutableURLRequest(url: URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!)
@@ -33,7 +39,9 @@ class FlickrNetwork {
                 let photos = photosMeta["photo"] as? [Any] {
                 
                 var flickrImages:[FlickrImage] = []
+                
                 for photo in photos {
+                    
                     if let flickrImage = photo as? [String:Any],
                         let id = flickrImage["id"] as? String,
                         let secret = flickrImage["secret"] as? String,
@@ -42,6 +50,7 @@ class FlickrNetwork {
                         flickrImages.append(flickrImage(id: id, secret: secret, server: server, farm: farm))
                     }
                 }
+                
                 completion(true, flickrImages)
                 
             } else {

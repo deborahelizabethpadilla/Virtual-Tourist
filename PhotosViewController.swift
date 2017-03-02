@@ -225,6 +225,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     func getFlickrImagesRandomResult(completion: @escaping (_ result:[FlickrImage]?) -> Void) {
         
         var result:[FlickrImage] = []
+        
         FlickrNetwork.getFlickrImages(lat: coordinateSelected.latitude, lng: coordinateSelected.longitude) { (success, flickrImages) in
             if success {
                 

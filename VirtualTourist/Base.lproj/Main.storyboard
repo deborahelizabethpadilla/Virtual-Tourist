@@ -70,9 +70,7 @@
                             <constraint firstItem="yms-UK-Ros" firstAttribute="leading" secondItem="fem-d5-CeK" secondAttribute="leading" id="xFX-FP-6rK"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="cAB-ZU-hpb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="n5j-Ub-y5C"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="cAB-ZU-hpb"/>
                     <connections>
                         <outlet property="deletePin" destination="4Ne-Xf-7fR" id="COn-Km-bu0"/>
                         <outlet property="mapView" destination="iWN-e5-kox" id="65T-Dg-QPr"/>
@@ -189,9 +187,7 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="6fF-s5-gZg"/>
-                        <barButtonItem systemItem="trash" id="ew3-MR-zRn"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

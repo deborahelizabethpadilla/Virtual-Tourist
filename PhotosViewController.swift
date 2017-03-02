@@ -16,7 +16,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var bottomButton: UIButton!
+    @IBOutlet weak var newCollectionButton: UIButton!
     
     var coordinateSelected:CLLocationCoordinate2D!
     let spacingBetweenItems:CGFloat = 5
@@ -30,11 +30,11 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             
             if selectedToDelete.count > 0 {
                 
-                bottomButton.setTitle("Remove Selected Pictures", for: .normal)
+                newCollectionButton.setTitle("Remove Selected Pictures", for: .normal)
                 
             } else {
                 
-                bottomButton.setTitle("New Collection", for: .normal)
+                newCollectionButton.setTitle("New Collection", for: .normal)
             }
         }
     }
@@ -104,7 +104,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     //Action
     
-    @IBAction func bottomButtonAction(_ sender: Any) {
+    @IBAction func newCollectionAction(_ sender: Any) {
         
         if selectedToDelete.count > 0 {
             
@@ -165,7 +165,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func showNewResult() {
         
-        bottomButton.isEnabled = false
+        newCollectionButton.isEnabled = false
         
         deleteExistingCoreDataPhoto()
         savedImages.removeAll()
@@ -180,7 +180,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
                     self.addCoreData(flickrImages: flickrImages!, coreDataPin: self.coreDataPin)
                     self.savedImages = self.preloadSavedPhoto()!
                     self.showSavedResult()
-                    self.bottomButton.isEnabled = true
+                    self.newCollectionButton.isEnabled = true
                 }
             }
         }

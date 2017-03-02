@@ -14,7 +14,7 @@ import CoreData
 class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var deleteNoteView: UIView!
+    @IBOutlet weak var deletePin: UIView!
     
     var gestureBegin: Bool = false
     var editMode: Bool = false

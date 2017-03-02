@@ -74,11 +74,16 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="n5j-Ub-y5C"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="mapView" destination="iWN-e5-kox" id="65T-Dg-QPr"/>
                         <segue destination="9cO-6T-mJ3" kind="show" identifier="PinPhotos" id="Ki6-Ma-dDh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9o-Ev-JdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8zY-X1-NQ2"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8zY-X1-NQ2">
+                    <connections>
+                        <action selector="responseLongTapAction:" destination="nhS-YZ-yeT" id="sBv-uz-dX9"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="873" y="-560"/>
         </scene>
@@ -159,6 +164,9 @@
                                 <state key="normal" title="NEW COLLECTION">
                                     <color key="titleColor" red="1" green="0.97290740389999997" blue="0.97382185750000005" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="newCollectionAction:" destination="9cO-6T-mJ3" eventType="touchUpInside" id="els-Pe-SUN"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -185,6 +193,11 @@
                         <barButtonItem systemItem="trash" id="ew3-MR-zRn"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionView" destination="kzM-7n-Cgo" id="fMM-Vz-bfx"/>
+                        <outlet property="mapView" destination="IwO-fC-ubg" id="iXv-j2-Udi"/>
+                        <outlet property="newCollectionButton" destination="dhl-ZD-Rum" id="gje-WQ-scf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -19,15 +19,21 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet var noPhoto: UILabel!
     @IBOutlet var trash: UIBarButtonItem!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var newCollectionButton: UIButton!
     
-    //Variables - Enum
+    
+    //Variables & Enum
     
     let spacing: CGFloat = 6.0
     let columns = 3
     var pinAnnotation: PinAnnotation?
     var photos: [Photo]?
     var photoStatus = PhotosStatus.incomplete
-    
+    var isDeleting = false
+    var selectedIndexofCollectionViewCells = [IndexPath]()
+    var fetchedResultsController:NSFetchedResultsController<Photo>!
+    var pin: Pin? = nil
+
     enum PhotosStatus {
         
         case incomplete
@@ -37,11 +43,19 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Hide New Collection Button
+        
+        newCollectionButton.isHidden = false
+        
         //Collection View Setup
         
         newCollectionOutlet.dataSource = self
         newCollectionOutlet.delegate = self
         newCollectionOutlet.allowsMultipleSelection = true
+        
+        //New Collection Button Enabled
+        
+        newCollectionButton.isEnabled = false
         
         
         //Annotation
@@ -82,7 +96,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
                 
                 DispatchQueue.main.async {
                     
-                    let alert = UIAlertController(title: "Could not retrieve photos", message: "Photos cannot be retrieved at this time", preferredStyle: UIAlertControllerStyle.alert)
+                    let alert = UIAlertController(title: "Could Not Retrieve Photos", message: "Photos Cannot Be Retrieved At This Time", preferredStyle: UIAlertControllerStyle.alert)
                     self.present(alert, animated: true, completion: nil)
                     self.photoStatus = .done
                     self.activityIndicator.stopAnimating()
@@ -223,10 +237,106 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             
             trash.isEnabled = false
         }
+        
     }
     
-    //Refresh Photos
+    //New Collection Button
     
+    @IBAction func newCollectionButton(_ sender: Any) {
+        
+        newCollectionButton.isHidden = true
+        
+        //Delete Photo
+        
+        if isDeleting == true
+            
+        {
+            //Remove Photo
+            
+            for indexPath in selectedIndexofCollectionViewCells {
+                
+                //Get Photo With IndexPath
+                
+                let photo = fetchedResultsController.object(at: indexPath)
+                
+                print("Deleting this -- \(photo)")
+                
+                //Delete Photo
+                
+                sharedContext().delete(photo)
+                
+            }
+            
+            //Empty IndexPath After Deleting
+            
+            selectedIndexofCollectionViewCells.removeAll()
+            
+            //Save To Core Data
+            
+            try! CoreDataStack.sharedInstance().saveContext()
+            
+            //Update Cells
+            
+            fetch()
+            newCollectionOutlet.reloadData()
+            
+            //Change Button After Deleting
+            
+            newCollectionButton.setTitle("New Collection", for: UIControlState())
+            newCollectionButton.isHidden = false
+            
+            isDeleting = false
+            
+        } else {
+            
+            //Wipe Photo Album From Previous
+            
+            for photo in fetchedResultsController.fetchedObjects! {
+                
+                sharedContext().delete(photo)
+            }
+            
+            //Save To Core Data
+            
+            try! CoreDataStack.sharedInstance().saveContext()
+            
+            //Download New Photos
+            
+            FlickrNetwork.sharedInstance().downloadPhotosForPin(pin!, completionHandler: {
+                success, error in
+                
+                if success {
+                    
+                    DispatchQueue.main.async(execute: {
+                        
+                        CoreDataStack.sharedInstance().saveContext()
+                    })
+                    
+                } else {
+                    
+                    DispatchQueue.main.async(execute: {
+                        
+                        print("error downloading a new set of photos")
+                        
+                        self.newCollectionButton.isHidden = false
+                    })
+                }
+                
+                //Update cells
+                
+                DispatchQueue.main.async(execute: {
+                    self.reFetch()
+                    self.collectionView.reloadData()
+                })
+                
+            })
+        }
+    
+
+    }
+
+    //Refresh Photos
+
     @IBAction func refresh(_ sender: UIBarButtonItem) {
         
         photoStatus = .incomplete
@@ -267,6 +377,20 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             }
             
             newCollectionOutlet.deleteItems(at: [index])
+        }
+    }
+    
+    //Fetch Data Again
+    
+    func fetch() {
+        
+        do {
+            
+            try fetchedResultsController.performFetch()
+            
+        } catch let error as NSError {
+            
+            print("reFetch - \(error)")
         }
     }
     

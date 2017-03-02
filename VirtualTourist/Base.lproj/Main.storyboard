@@ -110,8 +110,8 @@
                                     <constraint firstAttribute="height" constant="170" id="4LU-Oe-zt7"/>
                                 </constraints>
                             </mapView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kzM-7n-Cgo">
-                                <rect key="frame" x="0.0" y="286" width="375" height="265"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kzM-7n-Cgo">
+                                <rect key="frame" x="0.0" y="286" width="375" height="337"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3h1-Xc-hbP">
                                     <size key="itemSize" width="94" height="89"/>
@@ -169,6 +169,9 @@
                                 <state key="normal" title="NEW COLLECTION">
                                     <color key="titleColor" red="1" green="0.97290740389999997" blue="0.97382185750000005" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="newCollectionButton:" destination="9cO-6T-mJ3" eventType="touchUpInside" id="i6c-bx-1Ge"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -190,7 +193,11 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5"/>
+                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5">
+                            <connections>
+                                <action selector="refresh:" destination="9cO-6T-mJ3" id="KMD-34-ExH"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="6fF-s5-gZg"/>
                         <barButtonItem systemItem="trash" id="ew3-MR-zRn">
                             <connections>
@@ -202,6 +209,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="VEs-ki-sq8" id="Fao-9j-aM9"/>
                         <outlet property="mapView" destination="IwO-fC-ubg" id="Fwp-t2-Cze"/>
+                        <outlet property="newCollectionButton" destination="dhl-ZD-Rum" id="QG9-Y8-fAf"/>
                         <outlet property="newCollectionOutlet" destination="kzM-7n-Cgo" id="oJ5-bu-DyF"/>
                         <outlet property="noPhoto" destination="76H-B4-x5j" id="wvU-oS-Xqe"/>
                         <outlet property="trash" destination="ew3-MR-zRn" id="LlG-PP-VPE"/>

@@ -86,6 +86,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    //View Did Load
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -174,13 +176,17 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func addCoreData(flickrImages:[FlickrImage], coreDataPin:Pin) {
         for image in flickrImages {
+            
             do {
+                
                 let delegate = UIApplication.shared.delegate as! AppDelegate
                 let stack = delegate.stack
                 let photo = Photo(index: flickrImages.index{$0 === image}!, imageURL: image.imageURLString(), imageData: nil, context: stack.context)
                 photo.pin = coreDataPin
                 try stack.saveContext()
+                
             } catch {
+                
                 print("add core data failed")
             }
         }
@@ -227,6 +233,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Add Annotation To Pin
     
     func addAnnotationToMap() {
+        
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinateSelected
         mapView.addAnnotation(annotation)
@@ -236,10 +243,12 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Collection View Functions
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return savedImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
         cell.activityIndicator.startAnimating()
         cell.initWithPhoto(savedImages[indexPath.row])
@@ -247,16 +256,19 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let width = UIScreen.main.bounds.width / 3 - spacingBetweenItems
         let height = width
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
         return spacingBetweenItems
     }
     
     func selectedToDeleteFromIndexPath(_ indexPathArray: [IndexPath]) -> [Int] {
+        
         var selected:[Int] = []
         for indexPath in indexPathArray {
             selected.append(indexPath.row)
@@ -265,6 +277,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         selectedToDelete = selectedToDeleteFromIndexPath(collectionView.indexPathsForSelectedItems!)
         let cell = collectionView.cellForItem(at: indexPath)
         DispatchQueue.main.async {
@@ -274,6 +287,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
         selectedToDelete = selectedToDeleteFromIndexPath(collectionView.indexPathsForSelectedItems!)
         let cell = collectionView.cellForItem(at: indexPath)
         DispatchQueue.main.async {

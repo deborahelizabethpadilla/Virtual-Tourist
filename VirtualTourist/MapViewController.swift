@@ -181,7 +181,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        deleteNoteView.isHidden = !editing
+        deletePin.isHidden = !editing
         editMode = editing
     }
     

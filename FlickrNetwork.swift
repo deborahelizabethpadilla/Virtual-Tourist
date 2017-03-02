@@ -7,150 +7,47 @@
 //
 
 import Foundation
-import UIKit
 
-class FlickrNetwork: NSObject {
+class FlickrNetwork {
     
-    //Main Functions
+    private static let flickrEndpoint  = "https://api.flickr.com/services/rest/"
+    private static let flickrAPIKey    = "2a2ad0534c538cea62c640e0d2520400"
+    private static let flickrSearch    = "flickr.photos.search"
+    private static let format          = "json"
+    private static let searchRangeKM   = 1
     
-    static let sharedClient = FlickrNetwork()
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
-    
-    fileprivate override init() {}
-    
-    //Task From Flickr
-    
-    func taskForURLsWithParameters(_ parameters: [String:String], completionHandler: @escaping (_ urls: [URL]?, _ error: NSError?) -> Void) -> URLSessionTask {
-        
-        let urlString = APIConstants.baseURL + "?" + escapedParameters(parameters)
-        let url = URL(string: urlString)!
-        let request = URLRequest(url: url)
+    static func getFlickrImages(lat: Double, lng: Double, completion: @escaping (_ success: Bool, _ flickrImages:[FlickrImage]?) -> Void) {
+        let request = NSMutableURLRequest(url: URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!)
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: { data, response, error in
-            if let error = error {
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error...
+                completion(false, nil)
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (14, data!.count - 1))
+            let newData = data?.subdata(in: range) /* subset response data! */
+            
+            if let json = try? JSONSerialization.jsonObject(with: newData!) as? [String:Any],
+                let photosMeta = json?["photos"] as? [String:Any],
+                let photos = photosMeta["photo"] as? [Any] {
                 
-                completionHandler(nil, error as NSError)
-                
-            } else {
-                
-                let json = (try! JSONSerialization.jsonObject(with: data!, options: .allowFragments)) as! NSDictionary
-                
-                if let results = json["photos"] as? [String:AnyObject],
-                    let photos = results["photo"] as? [[String:AnyObject]] {
-                    
-                    let total = Int((results["total"] as! String))!
-                    
-                    //Random Page From Total Number Of Pages
-                    
-                    
-                    
-                    var slice = photos
-                    slice.shuffle()
-                    let max = min(21, total)
-                    slice = Array(slice[0..<max])
-                    let urls = slice.map { (photo: [String:AnyObject]) -> URL in
-                        let urlString = photo[APIConstants.urlExtra] as! String
-                        return URL(string: urlString)!
+                var flickrImages:[FlickrImage] = []
+                for photo in photos {
+                    if let flickrImage = photo as? [String:Any],
+                        let id = flickrImage["id"] as? String,
+                        let secret = flickrImage["secret"] as? String,
+                        let server = flickrImage["server"] as? String,
+                        let farm = flickrImage["farm"] as? Int {
+                        flickrImages.append(flickrImage(id: id, secret: secret, server: server, farm: farm))
                     }
-                    
-                    completionHandler(urls, nil)
-                    
-                } else {
-                    
-                    completionHandler(nil, nil)
                 }
-            }
-        })
-        
-        task.resume()
-        return task
-    }
-    
-    //Download From Flickr To Pin
-    
-    func taskForURLsWithPinAnnotation(_ pinAnnotation: PinAnnotation, completionHandler: @escaping (_ urls: [URL]?, _ error: NSError?) -> Void) -> URLSessionTask {
-        
-        let params = [
-            "method" : SearchMethod.searchPhotos,
-            "api_key" : APIConstants.apiKey,
-            "extras" : APIConstants.urlExtra,
-            "format" : APIConstants.jsonFormat,
-            "nojsoncallback" : "1",
-            "lat" : pinAnnotation.coordinate.latitude.description,
-            "lon" : pinAnnotation.coordinate.longitude.description,
-            "radius" : "5",
-            "per_page" : SearchMethod.perPage.description
-        ]
-        
-        return taskForURLsWithParameters(params, completionHandler: completionHandler)
-    }
-    
-    //Download Image From Flickr
-    
-    func downloadImageURL(_ url: URL, toPath path: String, completionHandler: @escaping (_ success: Bool, _ error: NSError?)->Void) {
-        
-        let request = URLRequest(url: url)
-        let task = URLSession.shared.downloadTask(with: request, completionHandler: { url, response, error in
-            if let error = error {
-                completionHandler(false, error as NSError)
+                completion(true, flickrImages)
                 
             } else {
-                
-                //Store In Core Data
-                
-                
+                completion(false, nil)
             }
-        })
-        
+        }
         task.resume()
-    }
-    
-    //Parameters
-    
-    func escapedParameters(_ dictionary: [String:String]) -> String {
-        
-        let queryItems = dictionary.map {
-            URLQueryItem(name: $0, value: $1)
-        }
-        
-        var comps = URLComponents()
-        comps.queryItems = queryItems
-        return comps.percentEncodedQuery ?? ""
-    }
-    
-    
-}
-
-    //Constants For Flickr
-
-struct APIConstants {
-    
-    static let apiKey = "2a2ad0534c538cea62c640e0d2520400"
-    static let baseURL = "https://api.flickr.com/services/rest/"
-    static let urlExtra = "url_m"
-    static let jsonFormat = "json"
-}
-
-    //Search
-
-struct SearchMethod {
-    
-    static let searchPhotos = "flickr.photos.search"
-    static let maxReturnedPhotos = 500
-    static let perPage = 500
-    
-}
-
-    //Array
-
-extension Array {
-    
-    mutating func shuffle() {
-        if count < 2 { return }
-        for i in 0..<(count - 1) {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
-            swap(&self[i], &self[j])
-        }
     }
 }

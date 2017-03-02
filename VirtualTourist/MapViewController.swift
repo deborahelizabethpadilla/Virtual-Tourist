@@ -10,9 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class MapViewController: UIViewController, MKMapViewDelegate {
-    
-    //Outlets
+class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteNoteView: UIView!
@@ -138,7 +136,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "photoAlbumSegue" {
-            let destination = segue.destination as! PhotosViewController
+            let destination = segue.destination as! PhotoAlbumVC
             let coord = sender as! CLLocationCoordinate2D
             destination.coordinateSelected = coord
             for pin in currentPins {

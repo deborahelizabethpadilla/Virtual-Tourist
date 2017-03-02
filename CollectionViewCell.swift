@@ -8,16 +8,17 @@
 
 import UIKit
 
-class PhotoAlbumCVCell: UICollectionViewCell {
+import UIKit
+
+class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var imageView: UIImageView!
     
     func initWithPhoto(_ photo: Photo) {
-        
         if photo.imageData != nil {
             DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: photo.imageData as! Data)
+                self.imageView.image = UIImage(data: photo.imageData! as Data)
                 self.activityIndicator.stopAnimating()
             }
         } else {

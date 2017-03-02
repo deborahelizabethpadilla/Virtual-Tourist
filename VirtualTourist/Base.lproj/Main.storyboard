@@ -71,19 +71,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cAB-ZU-hpb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="n5j-Ub-y5C">
-                            <connections>
-                                <action selector="toggleEdit:" destination="nhS-YZ-yeT" id="EUi-gC-ljx"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="n5j-Ub-y5C"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="deletePins" destination="4Ne-Xf-7fR" id="gSd-k5-thx"/>
-                        <outlet property="editButton" destination="n5j-Ub-y5C" id="AIf-yQ-0Ri"/>
-                        <outlet property="labelBottom" destination="PXx-tP-umC" id="1Cr-2a-f7Y"/>
-                        <outlet property="labelHeight" destination="Xf0-jd-iJA" id="pgF-fO-RfF"/>
-                        <outlet property="longPressGestureRecognizer" destination="8zY-X1-NQ2" id="6Nx-oS-fUJ"/>
-                        <outlet property="mapView" destination="iWN-e5-kox" id="ftL-is-gid"/>
                         <segue destination="9cO-6T-mJ3" kind="show" identifier="PinPhotos" id="Ki6-Ma-dDh"/>
                     </connections>
                 </viewController>
@@ -169,9 +159,6 @@
                                 <state key="normal" title="NEW COLLECTION">
                                     <color key="titleColor" red="1" green="0.97290740389999997" blue="0.97382185750000005" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="newCollectionButton:" destination="9cO-6T-mJ3" eventType="touchUpInside" id="i6c-bx-1Ge"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -193,27 +180,11 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5">
-                            <connections>
-                                <action selector="refresh:" destination="9cO-6T-mJ3" id="KMD-34-ExH"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem systemItem="refresh" id="Npk-Zv-he5"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="6fF-s5-gZg"/>
-                        <barButtonItem systemItem="trash" id="ew3-MR-zRn">
-                            <connections>
-                                <action selector="deleteSelectedPhotos:" destination="9cO-6T-mJ3" id="YDe-DY-mdJ"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem systemItem="trash" id="ew3-MR-zRn"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="activityIndicator" destination="VEs-ki-sq8" id="Fao-9j-aM9"/>
-                        <outlet property="mapView" destination="IwO-fC-ubg" id="Fwp-t2-Cze"/>
-                        <outlet property="newCollectionButton" destination="dhl-ZD-Rum" id="QG9-Y8-fAf"/>
-                        <outlet property="newCollectionOutlet" destination="kzM-7n-Cgo" id="oJ5-bu-DyF"/>
-                        <outlet property="noPhoto" destination="76H-B4-x5j" id="wvU-oS-Xqe"/>
-                        <outlet property="trash" destination="ew3-MR-zRn" id="LlG-PP-VPE"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

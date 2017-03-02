@@ -302,8 +302,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             
             //Download New Photos
             
-            FlickrNetwork.sharedInstance().downloadPhotosForPin(pin!, completionHandler: {
-                success, error in
+            FlickrNetwork.sharedInstance().downloadPhotosForPin(pin!, completionHandler: { success, error in
                 
                 if success {
                     
@@ -331,7 +330,6 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
                 
             })
         }
-    
 
     }
 

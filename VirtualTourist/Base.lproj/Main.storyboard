@@ -74,6 +74,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="n5j-Ub-y5C"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="deletePin" destination="4Ne-Xf-7fR" id="COn-Km-bu0"/>
                         <outlet property="mapView" destination="iWN-e5-kox" id="65T-Dg-QPr"/>
                         <segue destination="9cO-6T-mJ3" kind="show" identifier="PinPhotos" id="Ki6-Ma-dDh"/>
                     </connections>

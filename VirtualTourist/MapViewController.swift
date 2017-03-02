@@ -135,8 +135,8 @@ class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecogn
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "photoAlbumSegue" {
-            let destination = segue.destination as! PhotoAlbumVC
+        if segue.identifier == "PinPhotos" {
+            let destination = segue.destination as! PhotosViewController
             let coord = sender as! CLLocationCoordinate2D
             destination.coordinateSelected = coord
             for pin in currentPins {

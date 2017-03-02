@@ -9,8 +9,11 @@
 import Foundation
 import CoreData
 
+    //Pin Class
 
 extension Pin {
+    
+    //Fetch Pin
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Pin> {
         return NSFetchRequest<Pin>(entityName: "Pin");
@@ -21,8 +24,8 @@ extension Pin {
     @NSManaged public var photo: NSSet?
     
 }
+    //Access Photo
 
-// MARK: Generated accessors for photo
 extension Pin {
     
     @objc(addPhotoObject:)

@@ -172,6 +172,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.reloadData()
         
         getFlickrImagesRandomResult { (flickrImages) in
+            
             if flickrImages != nil {
                 
                 DispatchQueue.main.async {
@@ -211,13 +212,14 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     func deleteExistingCoreDataPhoto() {
         
         for image in savedImages {
+            
             getCoreDataStack().context.delete(image)
         }
     }
     
     //Get Images Randomly
     
-    func getFlickrImagesRandomResult(completion: @escaping (_ result:[flickrImage]?) -> Void) {
+    func getFlickrImagesRandomResult(completion: @escaping (_ result:[FlickrImage]?) -> Void) {
         
         var result:[FlickrImage] = []
         

@@ -16,10 +16,10 @@ class Photo: NSManagedObject {
     
     //Photo For Annotation
     
-    @NSManaged var imagePath: String
+    @NSManaged var imagePath: NSData
     @NSManaged var pin: Pin?
     
-    //Keys 
+    //Keys
     
     struct Keys {
         

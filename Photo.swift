@@ -36,7 +36,7 @@ class Photo: NSManagedObject {
         let entity = NSEntityDescription.entity(forEntityName: "Photo", in: context)!
         super.init(entity: entity, insertInto: context)
         
-        imagePath = dictionary[Keys.imagePath] as! String
+        imagePath = dictionary[Keys.imagePath] as! NSData
         
         pin = dictionary[Keys.pin] as? Pin
         

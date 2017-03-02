@@ -299,7 +299,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         selectedToDelete = selectedToDeleteFromIndexPath(collectionView.indexPathsForSelectedItems!)
         let cell = collectionView.cellForItem(at: indexPath)
+        
         DispatchQueue.main.async {
+            
             cell?.contentView.alpha = 0.5
         }
         
@@ -309,7 +311,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         selectedToDelete = selectedToDeleteFromIndexPath(collectionView.indexPathsForSelectedItems!)
         let cell = collectionView.cellForItem(at: indexPath)
+        
         DispatchQueue.main.async {
+            
             cell?.contentView.alpha = 1
         }
     }

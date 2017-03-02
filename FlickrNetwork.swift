@@ -51,7 +51,7 @@ class FlickrNetwork {
                         let secret = flickrImage["secret"] as? String,
                         let server = flickrImage["server"] as? String,
                         let farm = flickrImage["farm"] as? Int {
-                        flickrImages.append(flickrImage(id: id, secret: secret, server: server, farm: farm))
+                        flickrImages.append(FlickrImage(id: id, secret: secret, server: server, farm: farm))
                     }
                 }
                 

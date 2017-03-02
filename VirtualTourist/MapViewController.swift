@@ -8,9 +8,10 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 import CoreData
 
-class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteNoteView: UIView!
@@ -20,34 +21,38 @@ class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecogn
     var currentPins:[Pin] = []
     
     func getCoreDataStack() -> CoreDataStack {
+        
         let delegate = UIApplication.shared.delegate as! AppDelegate
         return delegate.stack
     }
     
     func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-        // Get the stack
+        
         let stack = getCoreDataStack()
         
-        // Create a fetchrequest
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         fr.sortDescriptors = []
         
-        // Create the FetchedResultsController
         return NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
     }
     
     func preloadSavedPin() -> [Pin]? {
         
         do {
+            
             var pinArray:[Pin] = []
             let fetchedResultsController = getFetchedResultsController()
             try fetchedResultsController.performFetch()
             let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
             for index in 0..<pinCount {
                 pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
+                
             }
+            
             return pinArray
+            
         } catch {
+            
             return nil
         }
     }
@@ -68,25 +73,33 @@ class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecogn
     }
     
     func setRightBarButtonItem() {
+        
         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
         gestureBegin = true
         return true
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
         if !editMode {
-            performSegue(withIdentifier: "photoAlbumSegue", sender: view.annotation?.coordinate)
+            
+            performSegue(withIdentifier: "PhotoPins", sender: view.annotation?.coordinate)
+            
         } else {
+            
             removeCoreData(of: view.annotation!)
             mapView.removeAnnotation(view.annotation!)
         }
     }
     
     @IBAction func responseLongTapAction(_ sender: Any) {
+        
         if gestureBegin {
+            
             let gestureRecognizer = sender as! UILongPressGestureRecognizer
             let gestureTouchLocation = gestureRecognizer.location(in: mapView)
             addAnnotationToMap(fromPoint: gestureTouchLocation)
@@ -95,6 +108,7 @@ class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecogn
     }
     
     func addAnnotationToMap(fromPoint: CGPoint) {
+        
         let coordToAdd = mapView.convert(fromPoint, toCoordinateFrom: mapView)
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordToAdd
@@ -103,43 +117,59 @@ class TravelLocationsMapVC: UIViewController, MKMapViewDelegate, UIGestureRecogn
     }
     
     func addAnnotationToMap(fromCoord: CLLocationCoordinate2D) {
+        
         let annotation = MKPointAnnotation()
         annotation.coordinate = fromCoord
         mapView.addAnnotation(annotation)
     }
     
     func addCoreData(of: MKAnnotation) {
+        
         do {
+            
             let coord = of.coordinate
             let pin = Pin(latitude: coord.latitude, longitude: coord.longitude, context: getCoreDataStack().context)
             try getCoreDataStack().saveContext()
             currentPins.append(pin)
+            
         } catch {
-            print("add core data failed")
+            
+            print("Adding Core Data Failed")
         }
     }
     
     func removeCoreData(of: MKAnnotation) {
         let coord = of.coordinate
+        
         for pin in currentPins {
+            
             if pin.latitude == coord.latitude && pin.longitude == coord.longitude {
+                
                 do {
+                    
                     getCoreDataStack().context.delete(pin)
                     try getCoreDataStack().saveContext()
+                    
                 } catch {
-                    print("remove core data failed")
+                    
+                    print("Removing Core Data Failed")
                 }
+                
                 break
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "PinPhotos" {
+            
             let destination = segue.destination as! PhotosViewController
             let coord = sender as! CLLocationCoordinate2D
             destination.coordinateSelected = coord
+            
             for pin in currentPins {
+                
                 if pin.latitude == coord.latitude && pin.longitude == coord.longitude {
                     destination.coreDataPin = pin
                     break

@@ -10,11 +10,6 @@ import UIKit
 import MapKit
 import CoreData
 
-import UIKit
-import MapKit
-import CoreLocation
-import CoreData
-
 class PhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     //Outlets
@@ -222,7 +217,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     //Get Images Randomly
     
-    func getFlickrImagesRandomResult(completion: @escaping (_ result:[FlickrImage]?) -> Void) {
+    func getFlickrImagesRandomResult(completion: @escaping (_ result:[flickrImage]?) -> Void) {
         
         var result:[FlickrImage] = []
         

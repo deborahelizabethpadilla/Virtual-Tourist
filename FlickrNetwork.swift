@@ -24,15 +24,19 @@ class FlickrNetwork {
     
     static func getFlickrImages(lat: Double, lng: Double, completion: @escaping (_ success: Bool, _ flickrImages:[FlickrImage]?) -> Void) {
         let request = NSMutableURLRequest(url: URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!)
+        
         let session = URLSession.shared
+        
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error...
+            
+            if error != nil {
+                
                 completion(false, nil)
                 return
             }
             
             let range = Range(uncheckedBounds: (14, data!.count - 1))
-            let newData = data?.subdata(in: range) /* subset response data! */
+            let newData = data?.subdata(in: range)
             
             if let json = try? JSONSerialization.jsonObject(with: newData!) as? [String:Any],
                 let photosMeta = json?["photos"] as? [String:Any],
@@ -54,9 +58,11 @@ class FlickrNetwork {
                 completion(true, flickrImages)
                 
             } else {
+                
                 completion(false, nil)
             }
         }
+        
         task.resume()
     }
 }

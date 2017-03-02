@@ -9,75 +9,110 @@
 import Foundation
 import CoreData
 
-    //Core Data Stack Info
+import CoreData
 
-private let SQLITE_FILE_NAME = "VirtualTourist.sqlite"
+// MARK: - CoreDataStack
 
-class CoreDataStack {
+struct CoreDataStack {
     
-    //Shared Delegate
+    // MARK: Properties
     
-    class func sharedInstance() -> CoreDataStack {
+    private let model: NSManagedObjectModel
+    internal let coordinator: NSPersistentStoreCoordinator
+    private let modelURL: URL
+    internal let dbURL: URL
+    let context: NSManagedObjectContext
+    
+    // MARK: Initializers
+    
+    init?(modelName: String) {
         
-        struct Static {
-            
-            static let instance = CoreDataStack()
+        // Assumes the model is in the main bundle
+        guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
+            print("Unable to find \(modelName)in the main bundle")
+            return nil
+        }
+        self.modelURL = modelURL
+        
+        // Try to create the model from the URL
+        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            print("unable to create a model from \(modelURL)")
+            return nil
+        }
+        self.model = model
+        
+        // Create the store coordinator
+        coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+        
+        // create a context and add connect it to the coordinator
+        context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.persistentStoreCoordinator = coordinator
+        
+        // Add a SQLite store located in the documents folder
+        let fm = FileManager.default
+        
+        guard let docUrl = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Unable to reach the documents folder")
+            return nil
         }
         
-        return Static.instance
-    }
-    
-    //Moved From AppDelegate
-    
-    lazy var applicationDocumentsDirectory: URL = {
+        self.dbURL = docUrl.appendingPathComponent("model.sqlite")
         
-        print("Instantiating the applicationDocumentsDirectory property")
-        
-        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return urls[urls.count-1]
-    }()
-    
-    //Core Data Stack Info
-    
-    lazy var managedObjectContext: NSManagedObjectContext = {
-        
-        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let applicationDocumentsDirectory = urls[urls.count-1]
-        
-        let modelURL = Bundle.main.url(forResource: "CoreDataModel", withExtension: "momd")!
-        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)!
-        
-        var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        let url = applicationDocumentsDirectory.appendingPathComponent("VirtualTourist.sqlite")
+        // Options for migration
+        let options = [NSInferMappingModelAutomaticallyOption: true,NSMigratePersistentStoresAutomaticallyOption: true]
         
         do {
-            try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+            try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: options as [NSObject : AnyObject]?)
         } catch {
-            
-            var dict = [String: AnyObject]()
-            
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject
-            dict[NSLocalizedFailureReasonErrorKey] = "There was an error creating or loading the application's saved data." as AnyObject
-            
-            dict[NSUnderlyingErrorKey] = error as NSError
-            let wrappedError = NSError(domain: "com.andreservidoni", code: 9999, userInfo: dict)
-            
-            NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
-            coordinator = nil
+            print("unable to add store at \(dbURL)")
         }
-        
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = coordinator
-        
-        return managedObjectContext
-    }()
+    }
     
-    //Core Data Save
+    // MARK: Utils
     
-    func saveContext () throws {
-        if managedObjectContext.hasChanges {
+    func addStoreCoordinator(_ storeType: String, configuration: String?, storeURL: URL, options : [NSObject:AnyObject]?) throws {
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: dbURL, options: nil)
+    }
+}
+
+// MARK: - CoreDataStack (Removing Data)
+
+internal extension CoreDataStack  {
+    
+    func dropAllData() throws {
+        // delete all the objects in the db. This won't delete the files, it will
+        // just leave empty tables.
+        try coordinator.destroyPersistentStore(at: dbURL, ofType:NSSQLiteStoreType , options: nil)
+        try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: nil)
+    }
+}
+
+// MARK: - CoreDataStack (Save Data)
+
+extension CoreDataStack {
+    
+    func saveContext() throws {
+        if context.hasChanges {
+            try context.save()
+        }
+    }
+    
+    func autoSave(_ delayInSeconds : Int) {
+        
+        if delayInSeconds > 0 {
+            do {
+                try saveContext()
+                print("Autosaving")
+            } catch {
+                print("Error while autosaving")
+            }
             
-            try managedObjectContext.save()
+            let delayInNanoSeconds = UInt64(delayInSeconds) * NSEC_PER_SEC
+            let time = DispatchTime.now() + Double(Int64(delayInNanoSeconds)) / Double(NSEC_PER_SEC)
+            
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                self.autoSave(delayInSeconds)
+            }
         }
     }
 }

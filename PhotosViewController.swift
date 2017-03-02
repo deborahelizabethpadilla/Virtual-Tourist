@@ -11,385 +11,230 @@ import MapKit
 import CoreData
 
 class PhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    //Outlets
-    
-    @IBOutlet var mapView: MKMapView!
-    @IBOutlet var newCollectionOutlet: UICollectionView!
-    @IBOutlet var noPhoto: UILabel!
-    @IBOutlet var trash: UIBarButtonItem!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var newCollectionButton: UIButton!
-    
-    
-    //Variables & Enum
-    
-    let spacing: CGFloat = 6.0
-    let columns = 3
-    var pinAnnotation: PinAnnotation?
-    var photos: [Photo]?
-    var photoStatus = PhotosStatus.incomplete
-    var isDeleting = false
-    var selectedIndexofCollectionViewCells = [IndexPath]()
-    var fetchedResultsController:NSFetchedResultsController<Photo>!
-    var pin: Pin? = nil
-
-    enum PhotosStatus {
         
-        case incomplete
-        case done
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        @IBOutlet weak var mapView: MKMapView!
+        @IBOutlet weak var collectionView: UICollectionView!
+        @IBOutlet weak var bottomButton: UIButton!
         
-        //Hide New Collection Button
+        var coordinateSelected:CLLocationCoordinate2D!
+        let spacingBetweenItems:CGFloat = 5
+        let totalCellCount:Int = 21
         
-        newCollectionButton.isHidden = false
-        
-        //Collection View Setup
-        
-        newCollectionOutlet.dataSource = self
-        newCollectionOutlet.delegate = self
-        newCollectionOutlet.allowsMultipleSelection = true
-        
-        //New Collection Button Enabled
-        
-        newCollectionButton.isEnabled = false
-        
-        
-        //Annotation
-        
-        if let pinAnnotation = pinAnnotation {
-            
-            let region = MKCoordinateRegionMake(pinAnnotation.coordinate, MKCoordinateSpanMake(0.4, 0.4))
-            
-            mapView.setRegion(region, animated: true)
-            
-            mapView.addAnnotation(pinAnnotation)
-            
-            photos = pinAnnotation.pin.pictures
-            
-            if photos!.count == 0 {
-                
-                photoStatus = .incomplete
-                activityIndicator.startAnimating()
-                activityIndicator.isHidden = false
-                retrieveURLsForPinAnnotation(pinAnnotation)
-                
-            } else {
-                
-                photoStatus = .done
-                activityIndicator.stopAnimating()
-                activityIndicator.isHidden = true
-                newCollectionOutlet.reloadData()
+        var coreDataPin:Pin!
+        var savedImages:[Photo] = []
+        var selectedToDelete:[Int] = [] {
+            didSet {
+                if selectedToDelete.count > 0 {
+                    bottomButton.setTitle("Remove Selected Pictures", for: .normal)
+                } else {
+                    bottomButton.setTitle("New Collection", for: .normal)
+                }
             }
         }
-    }
-    
-    //Get Flickr For Pins
-    
-    func retrieveURLsForPinAnnotation(_ pinAnnotation: PinAnnotation) {
         
-        FlickrNetwork.sharedClient.taskForURLsWithPinAnnotation(pinAnnotation) { urls, error in
-            if error != nil {
-                
-                DispatchQueue.main.async {
-                    
-                    let alert = UIAlertController(title: "Could Not Retrieve Photos", message: "Photos Cannot Be Retrieved At This Time", preferredStyle: UIAlertControllerStyle.alert)
-                    self.present(alert, animated: true, completion: nil)
-                    self.photoStatus = .done
-                    self.activityIndicator.stopAnimating()
-                    self.activityIndicator.isHidden = true
-                    self.newCollectionOutlet.reloadData()
+        func getCoreDataStack() -> CoreDataStack {
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            return delegate.stack
+        }
+        
+        func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
+            // Get the stack
+            let stack = getCoreDataStack()
+            
+            // Create a fetchrequest
+            let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+            fr.sortDescriptors = []
+            fr.predicate = NSPredicate(format: "pin = %@", argumentArray: [coreDataPin!])
+            
+            // Create the FetchedResultsController
+            return NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        }
+        
+        func preloadSavedPhoto() -> [Photo]? {
+            do {
+                var photoArray:[Photo] = []
+                let fetchedResultsController = getFetchedResultsController()
+                try fetchedResultsController.performFetch()
+                let photoCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
+                for index in 0..<photoCount {
+                    photoArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Photo)
                 }
-                
+                return photoArray.sorted(by: {$0.index < $1.index})
+            } catch {
+                return nil
+            }
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            collectionView.allowsMultipleSelection = true
+            addAnnotationToMap()
+            
+            let savedPhoto = preloadSavedPhoto()
+            if savedPhoto != nil && savedPhoto?.count != 0 {
+                savedImages = savedPhoto!
+                showSavedResult()
             } else {
-                
-                for (_, url) in (urls!).enumerated() {
-                    
-                    let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
-                    let path = "/" + pinAnnotation.pin.latitude.description.replacingOccurrences(of: ".", with: "_", options: .literal, range: nil) + "-" + pinAnnotation.pin.longitude.description.replacingOccurrences(of: ".", with: "_", options: .literal, range: nil) + "-" + url.lastPathComponent
-                    let dict = ["imagePath" : path, "pin" : pinAnnotation.pin] as [String : Any]
-                    let photo = Photo(dictionary: dict as [String : AnyObject], context: sharedContext())
-                    FlickrNetwork.sharedClient.downloadImageURL(url, toPath: (docPath + path)) { success, error in
-                        DispatchQueue.main.async {
-                            
-                            if error != nil {
-                                sharedContext().delete(photo)
-                                
-                                do {
-                                    
-                                    try sharedContext().save()
-                                    
-                                } catch _ {
-                                    
-                                }
-                                
-                            } else {
-                                
-                                self.newCollectionOutlet.reloadData()
-                            }
-                        }
+                showNewResult()
+            }
+        }
+        
+        @IBAction func bottomButtonAction(_ sender: Any) {
+            if selectedToDelete.count > 0 {
+                removeSelectedPicturesAtCoreData()
+                unselectAllSelectedCollectionViewCell()
+                savedImages = preloadSavedPhoto()!
+                showSavedResult()
+            } else {
+                showNewResult()
+            }
+        }
+        
+        func unselectAllSelectedCollectionViewCell() {
+            for indexPath in collectionView.indexPathsForSelectedItems! {
+                collectionView.deselectItem(at: indexPath, animated: false)
+                collectionView.cellForItem(at: indexPath)?.contentView.alpha = 1
+            }
+        }
+        
+        func removeSelectedPicturesAtCoreData() {
+            for index in 0..<savedImages.count {
+                if selectedToDelete.contains(index) {
+                    getCoreDataStack().context.delete(savedImages[index])
+                }
+            }
+            do {
+                try getCoreDataStack().saveContext()
+            } catch {
+                print("remove coredata photo failed")
+            }
+            selectedToDelete.removeAll()
+        }
+        
+        func showSavedResult() {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+        
+        func showNewResult() {
+            bottomButton.isEnabled = false
+            
+            deleteExistingCoreDataPhoto()
+            savedImages.removeAll()
+            collectionView.reloadData()
+            
+            getFlickrImagesRandomResult { (flickrImages) in
+                if flickrImages != nil {
+                    DispatchQueue.main.async {
+                        self.addCoreData(flickrImages: flickrImages!, coreDataPin: self.coreDataPin)
+                        self.savedImages = self.preloadSavedPhoto()!
+                        self.showSavedResult()
+                        self.bottomButton.isEnabled = true
                     }
                 }
-                
-                DispatchQueue.main.async {
-                    
-                    self.photoStatus = .done
-                    self.activityIndicator.stopAnimating()
-                    self.activityIndicator.isHidden = true
-                    self.newCollectionOutlet.reloadData()
+            }
+        }
+        
+        func addCoreData(flickrImages:[FlickrImage], coreDataPin:Pin) {
+            for image in flickrImages {
+                do {
+                    let delegate = UIApplication.shared.delegate as! AppDelegate
+                    let stack = delegate.stack
+                    let photo = Photo(index: flickrImages.index{$0 === image}!, imageURL: image.imageURLString(), imageData: nil, context: stack.context)
+                    photo.pin = coreDataPin
+                    try stack.saveContext()
+                } catch {
+                    print("add core data failed")
                 }
             }
         }
-    }
-    
-    //Number Of Sections
-    
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return 1
-    }
-    
-    //Collection View Number Of Items
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        switch photoStatus {
-            
-        case .incomplete:
-            noPhoto.isHidden = true
-            return 0
-        case .done:
-            let photos = pinAnnotation?.pin.pictures
-            if let cellCount = photos?.count, cellCount > 0 {
-                
-                noPhoto.isHidden = true
-                return cellCount
-                
-            } else {
-                
-                noPhoto.isHidden = false
-                return 0
+        func deleteExistingCoreDataPhoto() {
+            for image in savedImages {
+                getCoreDataStack().context.delete(image)
             }
         }
-    }
-    
-    //Collection View Cell For Item
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! CollectionViewCell
-        let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
-        let imagePath = pinAnnotation?.pin.pictures[indexPath.row].imagePath
-        if let imagePath = imagePath,
-            let image = UIImage(contentsOfFile: (docPath + imagePath)) {
-            
-            cell.activityIndicator.stopAnimating()
-            cell.activityIndicator.isHidden = true
-            cell.imageView.image = image
-            
-        } else {
-            
-            cell.activityIndicator.startAnimating()
-            cell.activityIndicator.isHidden = false
-            cell.imageView.image = nil
-        }
-        
-        return cell
-    }
-    
-    //Collection View Size Item
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let spaces = CGFloat(2 * columns)
-        let width = (collectionView.bounds.width - (spacing * spaces)) / CGFloat(columns)
-        
-        return CGSize(width: width, height: width)
-    }
-    
-    //Collection View Spacing
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return spacing
-    }
-    
-    //Collection View Select Item
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
-        cell.alpha = 0.4
-        trash.isEnabled = true
-    }
-    
-    //Collection View Deselect Item
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
-        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
-        cell.alpha = 1.0
-        if collectionView.indexPathsForSelectedItems != nil {
-            
-            trash.isEnabled = false
-        }
-        
-    }
-    
-    //New Collection Button
-    
-    @IBAction func newCollectionButton(_ sender: Any) {
-        
-        newCollectionButton.isHidden = true
-        
-        //Delete Photo
-        
-        if isDeleting == true
-            
-        {
-            //Remove Photo
-            
-            for indexPath in selectedIndexofCollectionViewCells {
-                
-                //Get Photo With IndexPath
-                
-                let photo = fetchedResultsController.object(at: indexPath)
-                
-                print("Deleting this -- \(photo)")
-                
-                //Delete Photo
-                
-                sharedContext().delete(photo)
-                
-            }
-            
-            //Empty IndexPath After Deleting
-            
-            selectedIndexofCollectionViewCells.removeAll()
-            
-            //Save To Core Data
-            
-            try! CoreDataStack.sharedInstance().saveContext()
-            
-            //Update Cells
-            
-            fetch()
-            newCollectionOutlet.reloadData()
-            
-            //Change Button After Deleting
-            
-            newCollectionButton.setTitle("New Collection", for: UIControlState())
-            newCollectionButton.isHidden = false
-            
-            isDeleting = false
-            
-        } else {
-            
-            //Wipe Photo Album From Previous
-            
-            for photo in fetchedResultsController.fetchedObjects! {
-                
-                sharedContext().delete(photo)
-            }
-            
-            //Save To Core Data
-            
-            try! CoreDataStack.sharedInstance().saveContext()
-            
-            //Download New Photos
-            
-            FlickrNetwork.sharedInstance().downloadPhotosForPin(pin!, completionHandler: { success, error in
-                
+        func getFlickrImagesRandomResult(completion: @escaping (_ result:[FlickrImage]?) -> Void) {
+            var result:[FlickrImage] = []
+            APIManager.getFlickrImages(lat: coordinateSelected.latitude, lng: coordinateSelected.longitude) { (success, flickrImages) in
                 if success {
                     
-                    DispatchQueue.main.async(execute: {
+                    if flickrImages!.count > self.totalCellCount {
+                        var randomArray:[Int] = []
                         
-                        CoreDataStack.sharedInstance().saveContext()
-                    })
+                        while randomArray.count < self.totalCellCount {
+                            let random = arc4random_uniform(UInt32(flickrImages!.count))
+                            if !randomArray.contains(Int(random)) { randomArray.append(Int(random)) }
+                        }
+                        
+                        for random in randomArray {
+                            result.append(flickrImages![random])
+                        }
+                        
+                        completion(result)
+                    } else {
+                        completion(flickrImages!)
+                    }
                     
                 } else {
-                    
-                    DispatchQueue.main.async(execute: {
-                        
-                        print("error downloading a new set of photos")
-                        
-                        self.newCollectionButton.isHidden = false
-                    })
+                    completion(nil)
                 }
-                
-                //Update cells
-                
-                DispatchQueue.main.async(execute: {
-                    self.reFetch()
-                    self.collectionView.reloadData()
-                })
-                
-            })
-        }
-
-    }
-
-    //Refresh Photos
-
-    @IBAction func refresh(_ sender: UIBarButtonItem) {
-        
-        photoStatus = .incomplete
-        activityIndicator.startAnimating()
-        activityIndicator.isHidden = false
-        if let indexPaths = newCollectionOutlet.indexPathsForSelectedItems {
-            
-            for index in indexPaths {
-                
-                newCollectionOutlet.deselectItem(at: index, animated: true)
-                collectionView(newCollectionOutlet, didDeselectItemAt: index)
             }
         }
         
-        for photo in pinAnnotation!.pin.pictures {
-            
-            sharedContext().delete(photo)
+        func addAnnotationToMap() {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinateSelected
+            mapView.addAnnotation(annotation)
+            mapView.showAnnotations([annotation], animated: true)
         }
-        newCollectionOutlet.reloadData()
         
-        retrieveURLsForPinAnnotation(pinAnnotation!)
-    }
-    
-    //Delete Photos
-    
-    @IBAction func deleteSelectedPhotos(_ sender: UIBarButtonItem) {
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return savedImages.count
+        }
         
-        while let index = newCollectionOutlet.indexPathsForSelectedItems?.first {
-            
-            let row = index.row
-            let photo = pinAnnotation?.pin.pictures[row]
-            sharedContext().delete(photo!)
-            do {
-                try sharedContext().save()
-                
-            } catch _ {
-                
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoAlbumCVCell", for: indexPath) as! PhotoAlbumCVCell
+            cell.activityIndicator.startAnimating()
+            cell.initWithPhoto(savedImages[indexPath.row])
+            return cell
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let width = UIScreen.main.bounds.width / 3 - spacingBetweenItems
+            let height = width
+            return CGSize(width: width, height: height)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return spacingBetweenItems
+        }
+        
+        func selectedToDeleteFromIndexPath(_ indexPathArray: [IndexPath]) -> [Int] {
+            var selected:[Int] = []
+            for indexPath in indexPathArray {
+                selected.append(indexPath.row)
+            }
+            return selected
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            selectedToDelete = selectedToDeleteFromIndexPath(collectionView.indexPathsForSelectedItems!)
+            let cell = collectionView.cellForItem(at: indexPath)
+            DispatchQueue.main.async {
+                cell?.contentView.alpha = 0.5
             }
             
-            newCollectionOutlet.deleteItems(at: [index])
         }
-    }
-    
-    //Fetch Data Again
-    
-    func fetch() {
         
-        do {
-            
-            try fetchedResultsController.performFetch()
-            
-        } catch let error as NSError {
-            
-            print("reFetch - \(error)")
+        func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+            selectedToDelete = selectedToDeleteFromIndexPath(collectionView.indexPathsForSelectedItems!)
+            let cell = collectionView.cellForItem(at: indexPath)
+            DispatchQueue.main.async {
+                cell?.contentView.alpha = 1
+            }
         }
-    }
-    
+        
 }

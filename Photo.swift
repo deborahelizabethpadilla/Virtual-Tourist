@@ -7,62 +7,19 @@
 //
 
 import Foundation
-import UIKit
 import CoreData
 
-@objc(Photo)
-
-class Photo: NSManagedObject {
+public class Photo: NSManagedObject {
     
-    //Photo For Annotation
-    
-    @NSManaged var imagePath: NSData
-    @NSManaged var pin: Pin?
-    
-    //Keys
-    
-    struct Keys {
-        
-        static let imagePath = "imagePath"
-        static let pin = "pin"
-    }
-    
-    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertInto: context)
-    }
-    
-    init(dictionary: [String:AnyObject], context: NSManagedObjectContext) {
-        
-        let entity = NSEntityDescription.entity(forEntityName: "Photo", in: context)!
-        super.init(entity: entity, insertInto: context)
-        
-        imagePath = dictionary[Keys.imagePath] as! NSData
-        
-        pin = dictionary[Keys.pin] as? Pin
-        
-        do {
-            
-            try context.save()
-            
-        } catch _ {
-            
+    convenience init(index:Int, imageURL: String, imageData: NSData?, context: NSManagedObjectContext) {
+        if let ent = NSEntityDescription.entity(forEntityName: "Photo", in: context) {
+            self.init(entity: ent, insertInto: context)
+            self.index = Int16(index)
+            self.imageURL = imageURL
+            self.imageData = imageData
+        } else {
+            fatalError("Unable to find Entity name!")
         }
     }
     
-    //Delete Annotation
-    
-    override func prepareForDeletion() {
-        
-        let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
-        
-        let fullPath = docPath + imagePath
-        
-        do {
-            
-            try FileManager.default.removeItem(atPath: fullPath)
-            
-        } catch _ {
-            
-        }
-    }
 }

@@ -95,7 +95,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         addAnnotationToMap()
         
         let savedPhoto = preloadSavedPhoto()
+        
         if savedPhoto != nil && savedPhoto?.count != 0 {
+            
             savedImages = savedPhoto!
             showSavedResult()
             
@@ -108,7 +110,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Action
     
     @IBAction func bottomButtonAction(_ sender: Any) {
+        
         if selectedToDelete.count > 0 {
+            
             removeSelectedPicturesAtCoreData()
             unselectAllSelectedCollectionViewCell()
             savedImages = preloadSavedPhoto()!
@@ -121,7 +125,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Collection View Cell
     
     func unselectAllSelectedCollectionViewCell() {
+        
         for indexPath in collectionView.indexPathsForSelectedItems! {
+            
             collectionView.deselectItem(at: indexPath, animated: false)
             collectionView.cellForItem(at: indexPath)?.contentView.alpha = 1
         }
@@ -130,23 +136,32 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Delete Photo
     
     func removeSelectedPicturesAtCoreData() {
+        
         for index in 0..<savedImages.count {
+            
             if selectedToDelete.contains(index) {
                 getCoreDataStack().context.delete(savedImages[index])
             }
         }
+        
         do {
+            
             try getCoreDataStack().saveContext()
+            
         } catch {
+            
             print("remove coredata photo failed")
         }
+        
         selectedToDelete.removeAll()
     }
     
     //Saved Result
     
     func showSavedResult() {
+        
         DispatchQueue.main.async {
+            
             self.collectionView.reloadData()
         }
     }
@@ -154,6 +169,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Show Result
     
     func showNewResult() {
+        
         bottomButton.isEnabled = false
         
         deleteExistingCoreDataPhoto()
@@ -162,7 +178,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         getFlickrImagesRandomResult { (flickrImages) in
             if flickrImages != nil {
+                
                 DispatchQueue.main.async {
+                    
                     self.addCoreData(flickrImages: flickrImages!, coreDataPin: self.coreDataPin)
                     self.savedImages = self.preloadSavedPhoto()!
                     self.showSavedResult()
@@ -175,6 +193,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Add Photo
     
     func addCoreData(flickrImages:[FlickrImage], coreDataPin:Pin) {
+        
         for image in flickrImages {
             
             do {
@@ -195,6 +214,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Delete Photo
     
     func deleteExistingCoreDataPhoto() {
+        
         for image in savedImages {
             getCoreDataStack().context.delete(image)
         }
@@ -203,6 +223,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Get Images Randomly
     
     func getFlickrImagesRandomResult(completion: @escaping (_ result:[FlickrImage]?) -> Void) {
+        
         var result:[FlickrImage] = []
         FlickrNetwork.getFlickrImages(lat: coordinateSelected.latitude, lng: coordinateSelected.longitude) { (success, flickrImages) in
             if success {

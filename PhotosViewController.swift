@@ -17,6 +17,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var newCollectionButton: UIButton!
+    @IBOutlet var noPhotos: UILabel!
     
     //Variables
     
@@ -24,6 +25,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     let spacingBetweenItems:CGFloat = 5
     let totalCellCount:Int = 25
     
+    var stack:CoreDataStack!
     var coreDataPin:Pin!
     var savedImages:[Photo] = []
     var selectedToDelete:[Int] = [] {
@@ -90,10 +92,26 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Collection View
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        //Button & Label
+        
+        newCollectionButton.isHidden = false
+        noPhotos.isHidden = true
+        
+        //Map View Delegate
+        
+        mapView.delegate = self as? MKMapViewDelegate
+        
         //Add To Map
         
         collectionView.allowsMultipleSelection = true
         addAnnotationToMap()
+        
+        //Fetch
         
         let savedPhoto = preloadSavedPhoto()
         if savedPhoto != nil && savedPhoto?.count != 0 {

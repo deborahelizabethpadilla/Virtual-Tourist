@@ -199,6 +199,7 @@
                         <outlet property="collectionView" destination="kzM-7n-Cgo" id="fMM-Vz-bfx"/>
                         <outlet property="mapView" destination="IwO-fC-ubg" id="iXv-j2-Udi"/>
                         <outlet property="newCollectionButton" destination="dhl-ZD-Rum" id="gje-WQ-scf"/>
+                        <outlet property="noPhotos" destination="76H-B4-x5j" id="1B4-aP-ADz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kE-D5-AiU" userLabel="First Responder" sceneMemberID="firstResponder"/>

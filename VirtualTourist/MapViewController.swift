@@ -156,7 +156,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             
         } catch {
             
-            print("add core data failed")
+            print("Add Core Data Failed")
         }
     }
     
@@ -176,7 +176,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                     
                 } catch {
                     
-                    print("remove core data failed")
+                    print("Remove Core Data Failed")
                 }
                 break
             }

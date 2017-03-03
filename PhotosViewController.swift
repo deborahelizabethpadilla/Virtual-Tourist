@@ -126,7 +126,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Deselect Collection View Cell
     
     func unselectAllSelectedCollectionViewCell() {
+        
         for indexPath in collectionView.indexPathsForSelectedItems! {
+            
             collectionView.deselectItem(at: indexPath, animated: false)
             collectionView.cellForItem(at: indexPath)?.contentView.alpha = 1
         }
@@ -151,13 +153,16 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             
             print("Remove Core Data Photo Failed")
         }
+        
         selectedToDelete.removeAll()
     }
     
     //Saved Result
     
     func showSavedResult() {
+        
         DispatchQueue.main.async {
+            
             self.collectionView.reloadData()
         }
     }
@@ -173,8 +178,11 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.reloadData()
         
         getFlickrImagesRandomResult { (flickrImages) in
+            
             if flickrImages != nil {
+                
                 DispatchQueue.main.async {
+                    
                     self.addCoreData(flickrImages: flickrImages!, coreDataPin: self.coreDataPin)
                     self.savedImages = self.preloadSavedPhoto()!
                     self.showSavedResult()
@@ -187,6 +195,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Add Core Data
     
     func addCoreData(flickrImages:[FlickrImage], coreDataPin:Pin) {
+        
         for image in flickrImages {
             
             do {
@@ -226,16 +235,20 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
                     var randomArray:[Int] = []
                     
                     while randomArray.count < self.totalCellCount {
+                        
                         let random = arc4random_uniform(UInt32(flickrImages!.count))
                         if !randomArray.contains(Int(random)) { randomArray.append(Int(random)) }
                     }
                     
                     for random in randomArray {
+                        
                         result.append(flickrImages![random])
                     }
                     
                     completion(result)
+                    
                 } else {
+                    
                     completion(flickrImages!)
                 }
                 

@@ -90,6 +90,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Add To Map
+        
         collectionView.allowsMultipleSelection = true
         addAnnotationToMap()
         
@@ -202,6 +204,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    //Delete Photo
+    
     func deleteExistingCoreDataPhoto() {
         
         for image in savedImages {
@@ -209,6 +213,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             getCoreDataStack().context.delete(image)
         }
     }
+    
+    //Get Random Photos
     
     func getFlickrImagesRandomResult(completion: @escaping (_ result:[FlickrImage]?) -> Void) {
         
@@ -239,6 +245,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    //Add Annotation
+    
     func addAnnotationToMap() {
         
         let annotation = MKPointAnnotation()
@@ -246,6 +254,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         mapView.addAnnotation(annotation)
         mapView.showAnnotations([annotation], animated: true)
     }
+    
+    //Collection View Functions & Delete Index Path
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         

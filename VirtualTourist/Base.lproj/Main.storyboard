@@ -46,6 +46,7 @@
                                 <rect key="frame" x="0.0" y="65" width="375" height="558"/>
                                 <connections>
                                     <outlet property="delegate" destination="nhS-YZ-yeT" id="Vbp-SD-ahG"/>
+                                    <outletCollection property="gestureRecognizers" destination="8zY-X1-NQ2" appends="YES" id="ECl-wP-b6q"/>
                                 </connections>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP PINS TO DELETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ne-Xf-7fR">

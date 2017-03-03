@@ -54,10 +54,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             try fetchedResultsController.performFetch()
             let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
             for index in 0..<pinCount {
+                
                 pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
             }
+            
             return pinArray
+            
         } catch {
+            
             return nil
         }
     }
@@ -70,7 +74,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         setRightBarButtonItem()
         
         let savedPins = preloadSavedPin()
+        
         if savedPins != nil {
+            
             currentPins = savedPins!
             
             //Add Annotation To Map

@@ -18,7 +18,7 @@ class FlickrNetwork {
     private static let flickrAPIKey    = "2a2ad0534c538cea62c640e0d2520400"
     private static let flickrSearch    = "flickr.photos.search"
     private static let format          = "json"
-    private static let searchRangeKM   = 1
+    private static let searchRangeKM   = 10
     
     //Get Images
     

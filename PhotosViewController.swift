@@ -114,8 +114,6 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         newCollectionButton.isHidden = false
         noPhotos.isHidden = true
         
-        
-        
         //Add To Map
         
         collectionView.allowsMultipleSelection = true

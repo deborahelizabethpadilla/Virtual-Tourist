@@ -51,7 +51,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     //Fetch Results
     
     func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-
+        
         let stack = getCoreDataStack()
         
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")

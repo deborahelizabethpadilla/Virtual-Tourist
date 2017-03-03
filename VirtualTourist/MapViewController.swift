@@ -187,7 +187,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "PhotoPins" {
+        if segue.identifier == "PinPhotos" {
             
             let destination = segue.destination as! PhotosViewController
             let coord = sender as! CLLocationCoordinate2D

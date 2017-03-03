@@ -104,7 +104,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         
         if !editMode {
             
-            performSegue(withIdentifier: "photoAlbumSegue", sender: view.annotation?.coordinate)
+            performSegue(withIdentifier: "PinPhotos", sender: view.annotation?.coordinate)
         } else {
             removeCoreData(of: view.annotation!)
             mapView.removeAnnotation(view.annotation!)

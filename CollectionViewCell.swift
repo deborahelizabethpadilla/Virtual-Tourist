@@ -53,7 +53,7 @@ class CollectionViewCell: UICollectionViewCell {
             let stack = delegate.stack
             try stack.saveContext()
         } catch {
-            print("save photo imageData failed")
+            print("Saving Photo imageData Failed")
         }
     }
     

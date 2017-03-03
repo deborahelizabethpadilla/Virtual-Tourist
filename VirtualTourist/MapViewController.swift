@@ -13,49 +13,55 @@ import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
+    //Outlets
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deletePin: UIView!
+    
+    //Variables
     
     var gestureBegin: Bool = false
     var editMode: Bool = false
     var currentPins:[Pin] = []
     
+    //Get Core Data
+    
     func getCoreDataStack() -> CoreDataStack {
-        
         let delegate = UIApplication.shared.delegate as! AppDelegate
         return delegate.stack
     }
     
+    //Fetched Results
+    
     func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-        
+
         let stack = getCoreDataStack()
-        
+
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         fr.sortDescriptors = []
-        
+
         return NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
     }
+    
+    //Begin Saved Pin
     
     func preloadSavedPin() -> [Pin]? {
         
         do {
-            
             var pinArray:[Pin] = []
             let fetchedResultsController = getFetchedResultsController()
             try fetchedResultsController.performFetch()
             let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
             for index in 0..<pinCount {
                 pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
-                
             }
-            
             return pinArray
-            
         } catch {
-            
             return nil
         }
     }
+    
+    //View Did Load
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,25 +69,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         setRightBarButtonItem()
         
         let savedPins = preloadSavedPin()
+        
         if savedPins != nil {
+            
             currentPins = savedPins!
+            
             for pin in currentPins {
+                
                 let coord = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
                 addAnnotationToMap(fromCoord: coord)
             }
         }
     }
     
+    //Bar Button Item
+    
     func setRightBarButtonItem() {
         
         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    //Gesture Recognizer
+    
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        
         gestureBegin = true
         return true
     }
+    
+    //Did Select Map View
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         

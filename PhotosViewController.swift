@@ -34,7 +34,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
                 
             } else {
                 
-                newCollectionButton.setTitle("New Collection", for: .normal)
+                newCollectionButton.setTitle("NEW COLLECTION", for: .normal)
             }
         }
     }

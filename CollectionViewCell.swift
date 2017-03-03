@@ -50,7 +50,9 @@ class CollectionViewCell: UICollectionViewCell {
                 }
             }
             
-            } .resume()
+            }
+            
+            .resume()
     }
     
     //Save Images

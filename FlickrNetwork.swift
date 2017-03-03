@@ -15,7 +15,7 @@ class FlickrNetwork {
     //Keys
     
     private static let flickrEndpoint  = "https://api.flickr.com/services/rest/"
-    private static let flickrAPIKey    = "eea708b4ed3f457c9525815ac5949d2e"
+    private static let flickrAPIKey    = "2a2ad0534c538cea62c640e0d2520400"
     private static let flickrSearch    = "flickr.photos.search"
     private static let format          = "json"
     private static let searchRangeKM   = 1

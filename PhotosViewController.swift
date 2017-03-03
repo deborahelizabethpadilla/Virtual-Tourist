@@ -22,7 +22,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     var coordinateSelected:CLLocationCoordinate2D!
     let spacingBetweenItems:CGFloat = 5
-    let totalCellCount:Int = 21
+    let totalCellCount:Int = 25
     
     var coreDataPin:Pin!
     var savedImages:[Photo] = []

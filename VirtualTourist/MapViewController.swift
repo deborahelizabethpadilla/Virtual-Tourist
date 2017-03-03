@@ -105,7 +105,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         return true
     }
     
-    //Map View Functions
+    //Map View Function
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         

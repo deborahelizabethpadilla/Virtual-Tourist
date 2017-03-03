@@ -118,6 +118,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         } else {
             
             removeCoreData(of: view.annotation!)
+            
             mapView.removeAnnotation(view.annotation!)
         }
     }

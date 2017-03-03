@@ -114,9 +114,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         newCollectionButton.isHidden = false
         noPhotos.isHidden = true
         
-        //Map View Delegate
         
-        mapView.delegate = self as? MKMapViewDelegate
         
         //Add To Map
         

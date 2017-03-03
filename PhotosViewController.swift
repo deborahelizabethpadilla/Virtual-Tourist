@@ -61,6 +61,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         fr.predicate = NSPredicate(format: "pin = %@", argumentArray: [coreDataPin!])
         
         return NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        
     }
     
     //Saved Photo

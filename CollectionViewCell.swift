@@ -17,6 +17,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var imageView: UIImageView!
     
+    
     //Get Photos
     
     func initWithPhoto(_ photo: Photo) {

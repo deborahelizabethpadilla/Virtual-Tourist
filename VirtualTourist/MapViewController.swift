@@ -73,6 +73,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         if savedPins != nil {
             currentPins = savedPins!
             
+            //Add Annotation To Map
+            
             for pin in currentPins {
                 
                 let coord = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)

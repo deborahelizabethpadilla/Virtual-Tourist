@@ -22,15 +22,18 @@ struct CoreDataStack {
     init?(modelName: String) {
     
         guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
-            print("Unable to find \(modelName)in the main bundle")
+            print("Unable To Find \(modelName).self In The Main Bundle")
             return nil
         }
+        
         self.modelURL = modelURL
     
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
-            print("unable to create a model from \(modelURL)")
+            
+            print("Unable To Create A Model From \(modelURL)")
             return nil
         }
+        
         self.model = model
 
         coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
@@ -41,7 +44,8 @@ struct CoreDataStack {
         let fm = FileManager.default
         
         guard let docUrl = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Unable to reach the documents folder")
+            
+            print("Unable To Reach The Documents Folder")
             return nil
         }
         
@@ -50,13 +54,17 @@ struct CoreDataStack {
         let options = [NSInferMappingModelAutomaticallyOption: true,NSMigratePersistentStoresAutomaticallyOption: true]
         
         do {
+            
             try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: options as [NSObject : AnyObject]?)
+            
         } catch {
-            print("unable to add store at \(dbURL)")
+            
+            print("Unable To Add Store At \(dbURL)")
         }
     }
     
     func addStoreCoordinator(_ storeType: String, configuration: String?, storeURL: URL, options : [NSObject:AnyObject]?) throws {
+        
         try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: dbURL, options: nil)
     }
 }
@@ -73,7 +81,9 @@ internal extension CoreDataStack  {
 extension CoreDataStack {
     
     func saveContext() throws {
+        
         if context.hasChanges {
+            
             try context.save()
         }
     }
@@ -81,17 +91,22 @@ extension CoreDataStack {
     func autoSave(_ delayInSeconds : Int) {
         
         if delayInSeconds > 0 {
+            
             do {
+                
                 try saveContext()
                 print("Autosaving")
+                
             } catch {
-                print("Error while autosaving")
+                
+                print("Error While Autosaving")
             }
             
             let delayInNanoSeconds = UInt64(delayInSeconds) * NSEC_PER_SEC
             let time = DispatchTime.now() + Double(Int64(delayInNanoSeconds)) / Double(NSEC_PER_SEC)
             
             DispatchQueue.main.asyncAfter(deadline: time) {
+                
                 self.autoSave(delayInSeconds)
             }
         }

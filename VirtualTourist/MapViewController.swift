@@ -24,26 +24,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     var editMode: Bool = false
     var currentPins:[Pin] = []
     
-    //Get Core Data
+    //Core Data
     
     func getCoreDataStack() -> CoreDataStack {
+        
         let delegate = UIApplication.shared.delegate as! AppDelegate
         return delegate.stack
     }
     
-    //Fetched Results
+    //Fetch Results
     
     func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-
+  
         let stack = getCoreDataStack()
-
+     
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         fr.sortDescriptors = []
-
+        
         return NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    //Begin Saved Pin
+    //Load Saved Pin
     
     func preloadSavedPin() -> [Pin]? {
         
@@ -53,10 +54,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             try fetchedResultsController.performFetch()
             let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
             for index in 0..<pinCount {
+                
                 pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
             }
+            
             return pinArray
+            
         } catch {
+            
             return nil
         }
     }
@@ -73,7 +78,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         if savedPins != nil {
             
             currentPins = savedPins!
-            
             for pin in currentPins {
                 
                 let coord = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
@@ -92,24 +96,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     //Gesture Recognizer
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
         gestureBegin = true
         return true
     }
     
-    //Did Select Map View
+    //Map View
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         if !editMode {
             
             performSegue(withIdentifier: "PhotoPins", sender: view.annotation?.coordinate)
-            
         } else {
-            
             removeCoreData(of: view.annotation!)
             mapView.removeAnnotation(view.annotation!)
         }
     }
+    
+    //Long Tap Gesture
     
     @IBAction func responseLongTapAction(_ sender: Any) {
         
@@ -121,6 +126,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             gestureBegin = false
         }
     }
+    
+    //Add Annotation Functions
     
     func addAnnotationToMap(fromPoint: CGPoint) {
         
@@ -149,13 +156,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             
         } catch {
             
-            print("Adding Core Data Failed")
+            print("Add Core Data Failed")
         }
     }
     
+    //Delete Core Data
+    
     func removeCoreData(of: MKAnnotation) {
-        let coord = of.coordinate
         
+        let coord = of.coordinate
         for pin in currentPins {
             
             if pin.latitude == coord.latitude && pin.longitude == coord.longitude {
@@ -167,7 +176,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                     
                 } catch {
                     
-                    print("Removing Core Data Failed")
+                    print("Remove Core Data Failed")
                 }
                 
                 break
@@ -175,16 +184,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         }
     }
     
+    //Segue
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "PinPhotos" {
+        if segue.identifier == "PhotoPins" {
             
             let destination = segue.destination as! PhotosViewController
             let coord = sender as! CLLocationCoordinate2D
             destination.coordinateSelected = coord
-            
             for pin in currentPins {
-                
                 if pin.latitude == coord.latitude && pin.longitude == coord.longitude {
                     destination.coreDataPin = pin
                     break
@@ -194,8 +203,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         }
     }
     
+    //Edit
+    
     override func setEditing(_ editing: Bool, animated: Bool) {
+        
         super.setEditing(editing, animated: animated)
+        
         deletePin.isHidden = !editing
         editMode = editing
     }

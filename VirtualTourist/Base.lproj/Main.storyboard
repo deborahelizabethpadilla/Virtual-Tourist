@@ -44,6 +44,9 @@
                             </stackView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iWN-e5-kox">
                                 <rect key="frame" x="0.0" y="65" width="375" height="558"/>
+                                <connections>
+                                    <outlet property="delegate" destination="nhS-YZ-yeT" id="Vbp-SD-ahG"/>
+                                </connections>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP PINS TO DELETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ne-Xf-7fR">
                                 <rect key="frame" x="0.0" y="622" width="375" height="45"/>

@@ -85,6 +85,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                 
                 let coord = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
                 addAnnotationToMap(fromCoord: coord)
+                
             }
         }
     }

@@ -133,6 +133,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         annotation.coordinate = coordToAdd
         addCoreData(of: annotation)
         mapView.addAnnotation(annotation)
+        
     }
     
     func addAnnotationToMap(fromCoord: CLLocationCoordinate2D) {

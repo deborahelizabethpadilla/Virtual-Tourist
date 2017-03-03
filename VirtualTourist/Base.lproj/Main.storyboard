@@ -72,15 +72,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="cAB-ZU-hpb"/>
                     <connections>
-                        <outlet property="deletePin" destination="4Ne-Xf-7fR" id="COn-Km-bu0"/>
-                        <outlet property="mapView" destination="iWN-e5-kox" id="65T-Dg-QPr"/>
+                        <outlet property="deletePins" destination="4Ne-Xf-7fR" id="Gxb-fE-BFA"/>
+                        <outlet property="mapView" destination="iWN-e5-kox" id="QM4-Rc-g5y"/>
                         <segue destination="9cO-6T-mJ3" kind="show" identifier="PinPhotos" id="Ki6-Ma-dDh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z9o-Ev-JdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8zY-X1-NQ2">
                     <connections>
-                        <action selector="responseLongTapAction:" destination="nhS-YZ-yeT" id="sBv-uz-dX9"/>
+                        <action selector="responseLongTapAction:" destination="nhS-YZ-yeT" id="Ett-Zd-2o3"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>

@@ -8,7 +8,6 @@
 
 import UIKit
 import MapKit
-import CoreLocation
 import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
@@ -16,7 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     //Outlets
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var deletePin: UIView!
+    @IBOutlet weak var deletePins: UIView!
     
     //Variables
     
@@ -35,9 +34,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     //Fetch Results
     
     func getFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-  
+        
         let stack = getCoreDataStack()
-     
+        
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         fr.sortDescriptors = []
         
@@ -49,19 +48,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     func preloadSavedPin() -> [Pin]? {
         
         do {
+            
             var pinArray:[Pin] = []
             let fetchedResultsController = getFetchedResultsController()
             try fetchedResultsController.performFetch()
             let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
             for index in 0..<pinCount {
-                
                 pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
             }
-            
             return pinArray
-            
         } catch {
-            
             return nil
         }
     }
@@ -74,18 +70,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         setRightBarButtonItem()
         
         let savedPins = preloadSavedPin()
-        
         if savedPins != nil {
-            
             currentPins = savedPins!
+            
             for pin in currentPins {
                 
-                //Location
-                
                 let coord = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-                
-                //Add Annotation
-                
                 addAnnotationToMap(fromCoord: coord)
             }
         }
@@ -106,20 +96,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         return true
     }
     
-    //Map View
+    //Map View Functions
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         if !editMode {
             
-            performSegue(withIdentifier: "PhotoPins", sender: view.annotation?.coordinate)
+            performSegue(withIdentifier: "photoAlbumSegue", sender: view.annotation?.coordinate)
         } else {
             removeCoreData(of: view.annotation!)
             mapView.removeAnnotation(view.annotation!)
         }
     }
     
-    //Long Tap Gesture
+    //Action
     
     @IBAction func responseLongTapAction(_ sender: Any) {
         
@@ -132,7 +122,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         }
     }
     
-    //Add Annotation Functions
+    //Add Pin
     
     func addAnnotationToMap(fromPoint: CGPoint) {
         
@@ -150,6 +140,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         mapView.addAnnotation(annotation)
     }
     
+    //Add Core Data
+    
     func addCoreData(of: MKAnnotation) {
         
         do {
@@ -161,7 +153,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             
         } catch {
             
-            print("Add Core Data Failed")
+            print("add core data failed")
         }
     }
     
@@ -181,9 +173,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                     
                 } catch {
                     
-                    print("Remove Core Data Failed")
+                    print("remove core data failed")
                 }
-                
                 break
             }
         }
@@ -198,8 +189,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             let destination = segue.destination as! PhotosViewController
             let coord = sender as! CLLocationCoordinate2D
             destination.coordinateSelected = coord
+            
             for pin in currentPins {
+                
                 if pin.latitude == coord.latitude && pin.longitude == coord.longitude {
+                    
                     destination.coreDataPin = pin
                     break
                 }
@@ -214,8 +208,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         
         super.setEditing(editing, animated: animated)
         
-        deletePin.isHidden = !editing
+        deletePins.isHidden = !editing
         editMode = editing
     }
     
 }
+

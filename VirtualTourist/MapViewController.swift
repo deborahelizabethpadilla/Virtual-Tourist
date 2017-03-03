@@ -80,6 +80,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             currentPins = savedPins!
             for pin in currentPins {
                 
+                //Location
+                
                 let coord = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
                 
                 //Add Annotation

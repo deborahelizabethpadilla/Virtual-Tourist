@@ -85,6 +85,7 @@
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8zY-X1-NQ2">
                     <connections>
                         <action selector="responseLongTapAction:" destination="nhS-YZ-yeT" id="Ett-Zd-2o3"/>
+                        <outlet property="delegate" destination="iWN-e5-kox" id="ZOZ-cd-dh6"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>

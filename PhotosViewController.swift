@@ -113,7 +113,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.allowsMultipleSelection = true
         addAnnotationToMap()
         
-        //Fetch
+        //Fetch Photos
         
         let savedPhoto = preloadSavedPhoto()
         if savedPhoto != nil && savedPhoto?.count != 0 {
